@@ -42,13 +42,25 @@ download::download(QWidget *parent) :
     foreach (db_data, DbList)
         qDebug() << db_data;
 
+    // 新建数据库名
     dbname = "sss";
     db->SetDbName(dbname);
     db->CreateDataBase();
-
+    // 新建表名
     QString tbname = "ta";
     db->SetTbName(tbname);
     db->CreateTable();
+
+    QVector<QString> x, y;
+    for (int i = 0; i < 10; ++i) {
+        x.push_back("AAA");
+        y.push_back("BBB");
+    }
+    db->InsertTable(x, y);
+
+    // 删除前面新建的数据库和表
+    //db->DeleteTable();
+    //db->DeleteDatabase();
 
     delete db;
 }

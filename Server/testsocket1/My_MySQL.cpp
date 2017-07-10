@@ -162,6 +162,7 @@ vector<string> My_MySQL::GetMysqlTable() {
 	string query_sql = "SHOW TABLES";
 	if (mysql_real_query(&mydata, query_sql.c_str(), query_sql.size())) {
 		cout << "查询失败，请检查命令是否正确！" << endl;
+		mysql_close(&mydata);
 		return res;
 	}
 
@@ -177,6 +178,66 @@ vector<string> My_MySQL::GetMysqlTable() {
 	mysql_close(&mydata);
 
 	return res;
+}
+
+int My_MySQL::DeleteDataBase() {
+	if (NULL == mysql_real_connect(&mydata, hostname.c_str(), root.c_str(), \
+		passwd.c_str(), databasename.c_str(), port, NULL, 0)) {
+		cout << databasename << "数据库不存在" << endl;
+		return NEXISDB_VALUE;
+	}
+	string query_sql = "DROP DATABASE " + databasename;
+	if (mysql_real_query(&mydata, query_sql.c_str(), query_sql.size())) {
+		cout << "数据库删除失败" << endl;
+		mysql_close(&mydata);
+		return FAILDDB_VALUE;
+	}
+	mysql_close(&mydata);
+	return SUCSDDB_VALUE;
+}
+
+int My_MySQL::DeleteTable() {
+	if (false == ExistTable()) {
+		mysql_close(&mydata);
+		cout << "表不存在" << endl;
+		return NEXISTB_VALUE;
+	}
+	string query_sql = "DROP TABLE " + tablename;
+	if (mysql_real_query(&mydata, query_sql.c_str(), query_sql.size())) {
+		cout << "表删除失败" << endl;
+		mysql_close(&mydata);
+		return FAILDTB_VALUE;
+	}
+	mysql_close(&mydata);
+	return SUCSDTB_VALUE;
+}
+
+bool My_MySQL::ExistTable() {
+	mysql_real_connect(&mydata, hostname.c_str(), root.c_str(), \
+		passwd.c_str(), databasename.c_str(), port, NULL, 0);
+	string query_sql = "SELECT TABLE_NAME FROM ";
+	query_sql += "INFORMATION_SCHEMA.TABLES ";
+	query_sql += "WHERE TABLE_SCHEMA='";
+	query_sql += databasename;
+	query_sql += "' AND TABLE_NAME='";
+	query_sql += tablename + "'";
+	// 判断表是否存在
+	mysql_real_query(&mydata, query_sql.c_str(), query_sql.size());
+	if (0 == mysql_num_rows(mysql_store_result(&mydata))) {
+		return false;
+	}
+	return true;
+}
+
+int My_MySQL::InsertTable(string x, string y) {
+	string query_sql = "INSERT INTO " + tablename;
+	query_sql += " (id, x, y, user) VALUES (default, '";
+	query_sql += x + "', '" + y + "', '" + username + "')";
+	if (mysql_real_query(&mydata, query_sql.c_str(), query_sql.size())) {
+		cout << "插入失败" << endl;
+		return FINSRTTB_VALUE;
+	}
+	return INSERTTB_VALUE;
 }
 
 MYSQL My_MySQL::MyQuery(string query_sql, string database) {
