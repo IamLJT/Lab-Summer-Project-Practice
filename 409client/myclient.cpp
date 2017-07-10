@@ -40,6 +40,12 @@ void MyClient::DeleteTable() {
     GetFromServer(DELETETB_ORDER);
 }
 
+QVector<QStringList> MyClient::QueryDataFromServer(QString QueryStr) {
+    QueryOrder = QueryStr;
+    GetFromServer(QUERY_ORDER);
+    return QueryData;
+}
+
 void MyClient::InsertTable(QVector<QString> x, QVector<QString> y) {
     // x和y的长度一定要相等
     xString = x;
@@ -74,8 +80,15 @@ void MyClient::GetFromServer(int order_type) {
         send_jsonobj.insert("db_name", DB_name);
         send_jsonobj.insert("tb_name", TB_name);
         break;
+    case QUERY_ORDER:
+        QueryData.clear();
+        send_jsonobj.insert("db_name", DB_name);
+        send_jsonobj.insert("tb_name", TB_name);
+        send_jsonobj.insert("content", QueryOrder);
+        break;
     }
-
+    if ("USER" == QueryOrder)
+        QueryData.resize(1);
     QString order_str = QString(QJsonDocument(send_jsonobj).toJson());
     const char* sendBuf = order_str.toLatin1().data();
     int sendLen = order_str.length()+1;
@@ -186,6 +199,10 @@ void MyClient::GetFromServer(int order_type) {
                 qDebug() << "表" << TB_name << "插入数据成功";
                 break;
             }
+            break;
+        case QUERY_DATA:
+            if ("USER" == QueryOrder)
+                QueryData[0].push_back(jsonObject["table_name"].toString());
             break;
         }
     }

@@ -9,21 +9,22 @@ class MyClient
 {
 public:
     MyClient();
-    void GetFromServer(int order_type);
-    void GetDataBaseListFromServer();
-    void GetTableListFromServer();
-    void CreateDataBase();
-    void CreateTable();
-    void DeleteDatabase();
-    void DeleteTable();
-    QStringList GetTableList();
-    QStringList GetDataBaseList();
+    void GetFromServer(int order_type); // 从服务器获取信息
+    void GetDataBaseListFromServer();   // 获取服务器上数据库列表
+    void GetTableListFromServer();      // 获取服务器上某数据库的表
+    void CreateDataBase();              // 新建数据库
+    void CreateTable();                 // 新建表
+    void DeleteDatabase();              // 删除数据库
+    void DeleteTable();                 // 删除数据库中表
+    QStringList GetTableList();         // 获取本地数据库中的表内容
+    QStringList GetDataBaseList();      // 获取本地数据库列表
+    QVector<QStringList> QueryDataFromServer(QString QueryStr);    // 查询数据
 
-    void SetDbName(QString dbname);
-    void SetTbName(QString tbname);
-    void SetUserName(QString username);
+    void SetDbName(QString dbname);     // 设置数据库名
+    void SetTbName(QString tbname);     // 设置表名
+    void SetUserName(QString username); // 设置用户名
 
-    void InsertTable(QVector<QString> x, QVector<QString> y);
+    void InsertTable(QVector<QString> x, QVector<QString> y);   // 向表插入内容
 
     ~MyClient();
 
@@ -48,7 +49,8 @@ private:
     int len;
     QVector<QString> xString;
     QVector<QString> yString;
-
+    QString QueryOrder;
+    QVector<QStringList> QueryData;
 };
 
 #endif // MYCLIENT_H
