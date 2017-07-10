@@ -24,6 +24,8 @@
 #define DELETEDB_DATA	5
 #define DELETETB_DATA	6
 #define INSERTTB_DATA	7
+#define RINSRTTB_DATA   8
+#define EXITINTB_DATA	9
 
 #define EXIT_DATA       20
 

@@ -1,7 +1,7 @@
 #include "myclient.h"
 
 MyClient::MyClient() :
-    MaxLen(100),
+    MaxLen(200),
     hostname("115.156.217.168"),
     Port(1234)
 {
@@ -32,6 +32,21 @@ void MyClient::CreateTable() {
     GetFromServer(CREATETB_ORDER);
 }
 
+void MyClient::DeleteDatabase() {
+    GetFromServer(DELETEDB_ORDER);
+}
+
+void MyClient::DeleteTable() {
+    GetFromServer(DELETETB_ORDER);
+}
+
+void MyClient::InsertTable(QVector<QString> x, QVector<QString> y) {
+    // x和y的长度一定要相等
+    xString = x;
+    yString = y;
+    GetFromServer(INSERTTB_ORDER);
+}
+
 void MyClient::GetFromServer(int order_type) {
     // Json数据流
     QJsonDocument jsonDocument;
@@ -50,9 +65,12 @@ void MyClient::GetFromServer(int order_type) {
         DataBaseList.clear();
         break;
     case CREATEDB_ORDER:
+    case DELETEDB_ORDER:
         send_jsonobj.insert("db_name", DB_name);
         break;
     case CREATETB_ORDER:
+    case DELETETB_ORDER:
+    case INSERTTB_ORDER:
         send_jsonobj.insert("db_name", DB_name);
         send_jsonobj.insert("tb_name", TB_name);
         break;
@@ -73,7 +91,8 @@ void MyClient::GetFromServer(int order_type) {
         data_str = QString(QLatin1String(recvBuf));
         jsonDocument = QJsonDocument::fromJson(data_str.toLocal8Bit().data());
         jsonObject = jsonDocument.object();
-        //qDebug() << jsonObject;
+        qDebug() << jsonObject;
+        int stringlen = xString.size();
         switch(jsonObject["order_type"].toInt()) {
         case EXIT_DATA:
             qDebug() << "数据传输结束！！！";
@@ -108,6 +127,63 @@ void MyClient::GetFromServer(int order_type) {
                 break;
             case SUCSCTB_VALUE:
                 qDebug() << "数据库" << DB_name << "中表" << TB_name <<  "创建成功";
+                break;
+            }
+            break;
+        case DELETEDB_DATA:
+            switch(jsonObject["value"].toInt()) {
+            case NEXISDB_VALUE:
+                qDebug() << "该数据库不存在！";
+                break;
+            case FAILDDB_VALUE:
+                qDebug() << "数据库" << DB_name << "删除失败！请检查原因！";
+                break;
+            case SUCSDDB_VALUE:
+                qDebug() << "数据库" << DB_name << "删除成功";
+                break;
+            }
+            break;
+        case DELETETB_DATA:
+            switch(jsonObject["value"].toInt()) {
+            case NEXISTB_VALUE:
+                qDebug() << TB_name << "表不存在！";
+                break;
+            case FAILDTB_VALUE:
+                qDebug() << "数据库" << DB_name << "中表" << TB_name << "删除失败！请检查原因！";
+                break;
+            case SUCSDTB_VALUE:
+                qDebug() << "数据库" << DB_name << "中表" << TB_name <<  "删除成功";
+                break;
+            }
+            break;
+        case INSERTTB_DATA:
+            send_jsonobj["order_type"] = INSERTTB_DATA;
+            for (int i = 0; i < stringlen; ++i) {
+                send_jsonobj.insert("x", xString[i]);
+                send_jsonobj.insert("y", yString[i]);
+                order_str = QString(QJsonDocument(send_jsonobj).toJson());
+                sendBuf = order_str.toLatin1().data();
+                sendLen = order_str.length()+1;
+                //qDebug() << send_jsonobj;
+                // 发送命令
+                ::sendto(ClientSocket, sendBuf, sendLen, 0, (SOCKADDR*)&RecvAddr, sizeof(SOCKADDR));
+            }
+            send_jsonobj.insert("order_type", EXITINTB_DATA);
+            order_str = QString(QJsonDocument(send_jsonobj).toJson());
+            sendBuf = order_str.toLatin1().data();
+            sendLen = order_str.length()+1;
+            ::sendto(ClientSocket, sendBuf, sendLen, 0, (SOCKADDR*)&RecvAddr, sizeof(SOCKADDR));
+            break;
+        case RINSRTTB_DATA:
+            switch(jsonObject["value"].toInt()) {
+            case NEXISTB_VALUE:
+                qDebug() << "该表不存在！";
+                break;
+            case FINSRTTB_VALUE:
+                qDebug() << "表" << TB_name << "插入数据失败！请检查原因！";
+                break;
+            case INSERTTB_VALUE:
+                qDebug() << "表" << TB_name << "插入数据成功";
                 break;
             }
             break;
