@@ -14,12 +14,16 @@ public:
     void GetTableListFromServer();
     void CreateDataBase();
     void CreateTable();
+    void DeleteDatabase();
+    void DeleteTable();
     QStringList GetTableList();
     QStringList GetDataBaseList();
 
     void SetDbName(QString dbname);
     void SetTbName(QString tbname);
     void SetUserName(QString username);
+
+    void InsertTable(QVector<QString> x, QVector<QString> y);
 
     ~MyClient();
 
@@ -42,6 +46,8 @@ private:
     // 常用的变量
     const int MaxLen;
     int len;
+    QVector<QString> xString;
+    QVector<QString> yString;
 
 };
 

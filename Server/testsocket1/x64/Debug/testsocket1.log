@@ -1,5 +1,4 @@
-﻿  server.cpp
-  My_MySQL.cpp
+﻿  My_MySQL.cpp
 d:\projectsocket\lab-summer-project-practice\server\testsocket1\my_mysql.cpp(60): warning C4267: “参数”: 从“size_t”转换到“unsigned long”，可能丢失数据
 d:\projectsocket\lab-summer-project-practice\server\testsocket1\my_mysql.cpp(89): warning C4267: “参数”: 从“size_t”转换到“unsigned long”，可能丢失数据
 d:\projectsocket\lab-summer-project-practice\server\testsocket1\my_mysql.cpp(102): warning C4267: “参数”: 从“size_t”转换到“unsigned long”，可能丢失数据
@@ -7,16 +6,9 @@ d:\projectsocket\lab-summer-project-practice\server\testsocket1\my_mysql.cpp(126
 d:\projectsocket\lab-summer-project-practice\server\testsocket1\my_mysql.cpp(140): warning C4267: “参数”: 从“size_t”转换到“unsigned long”，可能丢失数据
 d:\projectsocket\lab-summer-project-practice\server\testsocket1\my_mysql.cpp(149): warning C4267: “参数”: 从“size_t”转换到“unsigned long”，可能丢失数据
 d:\projectsocket\lab-summer-project-practice\server\testsocket1\my_mysql.cpp(163): warning C4267: “参数”: 从“size_t”转换到“unsigned long”，可能丢失数据
-  MySocket.cpp
-d:\projectsocket\lab-summer-project-practice\server\testsocket1\mysocket.cpp(64): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
-d:\projectsocket\lab-summer-project-practice\server\testsocket1\mysocket.cpp(76): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
-d:\projectsocket\lab-summer-project-practice\server\testsocket1\mysocket.cpp(88): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
-d:\projectsocket\lab-summer-project-practice\server\testsocket1\mysocket.cpp(100): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
-d:\projectsocket\lab-summer-project-practice\server\testsocket1\mysocket.cpp(103): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
-  json_writer.cpp
-d:\projectsocket\lab-summer-project-practice\server\testsocket1\json_writer.cpp(119): warning C4267: “初始化”: 从“size_t”转换到“unsigned int”，可能丢失数据
-  json_value.cpp
-  json_reader.cpp
-  正在生成代码...
+d:\projectsocket\lab-summer-project-practice\server\testsocket1\my_mysql.cpp(190): warning C4267: “参数”: 从“size_t”转换到“unsigned long”，可能丢失数据
+d:\projectsocket\lab-summer-project-practice\server\testsocket1\my_mysql.cpp(206): warning C4267: “参数”: 从“size_t”转换到“unsigned long”，可能丢失数据
+d:\projectsocket\lab-summer-project-practice\server\testsocket1\my_mysql.cpp(225): warning C4267: “参数”: 从“size_t”转换到“unsigned long”，可能丢失数据
+d:\projectsocket\lab-summer-project-practice\server\testsocket1\my_mysql.cpp(236): warning C4267: “参数”: 从“size_t”转换到“unsigned long”，可能丢失数据
   testsocket1.vcxproj -> D:\ProjectSocket\Lab-Summer-Project-Practice\Server\x64\Debug\testsocket1.exe
   testsocket1.vcxproj -> D:\ProjectSocket\Lab-Summer-Project-Practice\Server\x64\Debug\testsocket1.pdb (Partial PDB)

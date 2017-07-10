@@ -1,6 +1,9 @@
-#pragma once
 #ifndef ORDER_DEFINE_H
 #define ORDER_DEFINE_H
+
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <WinSock2.h>
 
 #define QUERYDB_ORDER   1
 #define QUERYTB_ORDER   2
@@ -21,6 +24,8 @@
 #define DELETEDB_DATA	5
 #define DELETETB_DATA	6
 #define INSERTTB_DATA	7
+#define RINSRTTB_DATA   8
+#define EXITINTB_DATA	9
 
 #define EXIT_DATA       20
 

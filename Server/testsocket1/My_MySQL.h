@@ -24,8 +24,14 @@ public:
 	vector<string> GetMysqlTable();
 	int CreateDataBase();
 	int CreateTable();
+	int DeleteDataBase();
+	int DeleteTable();
+	bool ExistTable();
+	int InsertTable(string x, string y);
+	int QueryTable(string user = "ALL");
 
 	MYSQL MyQuery(string query_sql, string database);
+	void CloseMySql();
 
 private:
 	MYSQL mydata;					// 数据库对象
