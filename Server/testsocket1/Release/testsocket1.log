@@ -1,18 +1,12 @@
-﻿MSVCRT.lib(gs_report.obj) : error LNK2001: 无法解析的外部符号 __imp__UnhandledExceptionFilter@4
-MSVCRT.lib(utility_desktop.obj) : error LNK2001: 无法解析的外部符号 __imp__UnhandledExceptionFilter@4
-MSVCRT.lib(gs_report.obj) : error LNK2001: 无法解析的外部符号 __imp__SetUnhandledExceptionFilter@4
-MSVCRT.lib(utility_desktop.obj) : error LNK2001: 无法解析的外部符号 __imp__SetUnhandledExceptionFilter@4
-MSVCRT.lib(gs_report.obj) : error LNK2001: 无法解析的外部符号 __imp__GetCurrentProcess@0
-MSVCRT.lib(gs_report.obj) : error LNK2001: 无法解析的外部符号 __imp__TerminateProcess@8
-MSVCRT.lib(gs_report.obj) : error LNK2001: 无法解析的外部符号 _IsProcessorFeaturePresent@4
-MSVCRT.lib(utility_desktop.obj) : error LNK2001: 无法解析的外部符号 _IsProcessorFeaturePresent@4
-MSVCRT.lib(_cpu_disp_.obj) : error LNK2001: 无法解析的外部符号 _IsProcessorFeaturePresent@4
-MSVCRT.lib(gs_support.obj) : error LNK2001: 无法解析的外部符号 __imp__QueryPerformanceCounter@4
-MSVCRT.lib(gs_support.obj) : error LNK2001: 无法解析的外部符号 __imp__GetCurrentProcessId@0
-MSVCRT.lib(gs_support.obj) : error LNK2001: 无法解析的外部符号 __imp__GetCurrentThreadId@0
-MSVCRT.lib(gs_support.obj) : error LNK2001: 无法解析的外部符号 __imp__GetSystemTimeAsFileTime@4
-MSVCRT.lib(tncleanup.obj) : error LNK2001: 无法解析的外部符号 __imp__InitializeSListHead@4
-MSVCRT.lib(utility_desktop.obj) : error LNK2001: 无法解析的外部符号 __imp__IsDebuggerPresent@0
-MSVCRT.lib(utility_desktop.obj) : error LNK2001: 无法解析的外部符号 __imp__GetStartupInfoW@4
-MSVCRT.lib(utility_desktop.obj) : error LNK2001: 无法解析的外部符号 __imp__GetModuleHandleW@4
-E:\研究生\程序\C++\socket\testsocket1\Release\testsocket1.exe : fatal error LNK1120: 13 个无法解析的外部命令
+﻿  json_reader.cpp
+json_reader.cpp(1): fatal error C1083: 无法打开包括文件: “json/reader.h”: No such file or directory
+  json_value.cpp
+json_value.cpp(2): fatal error C1083: 无法打开包括文件: “json/value.h”: No such file or directory
+  json_writer.cpp
+json_writer.cpp(1): fatal error C1083: 无法打开包括文件: “json/writer.h”: No such file or directory
+  MySocket.cpp
+d:\projectsocket\lab-summer-project-practice\server\testsocket1\My_MySQL.h(2): fatal error C1083: 无法打开包括文件: “mysql.h”: No such file or directory
+  My_MySQL.cpp
+d:\projectsocket\lab-summer-project-practice\server\testsocket1\My_MySQL.h(2): fatal error C1083: 无法打开包括文件: “mysql.h”: No such file or directory
+  server.cpp
+d:\projectsocket\lab-summer-project-practice\server\testsocket1\My_MySQL.h(2): fatal error C1083: 无法打开包括文件: “mysql.h”: No such file or directory

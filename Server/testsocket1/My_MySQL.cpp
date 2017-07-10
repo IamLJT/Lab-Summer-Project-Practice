@@ -208,6 +208,12 @@ int My_MySQL::DeleteTable() {
 		mysql_close(&mydata);
 		return FAILDTB_VALUE;
 	}
+	query_sql = "DELETE FROM TABLES WHERE table_name = '" + tablename + "'";
+	if (mysql_real_query(&mydata, query_sql.c_str(), query_sql.size())) {
+		cout << "表删除失败" << endl;
+		mysql_close(&mydata);
+		return FAILDTB_VALUE;
+	}
 	mysql_close(&mydata);
 	return SUCSDTB_VALUE;
 }
@@ -240,10 +246,41 @@ int My_MySQL::InsertTable(string x, string y) {
 	return INSERTTB_VALUE;
 }
 
-MYSQL My_MySQL::MyQuery(string query_sql, string database) {
+vector<string> My_MySQL::QueryTableByName() {
+	mysql_real_connect(&mydata, hostname.c_str(), root.c_str(), \
+		passwd.c_str(), databasename.c_str(), port, NULL, 0);
+	string query_sql = "SELECT TABLE_NAME FROM TABLES ";
+	if ("ALL" != username) query_sql += "WHERE USER='" + username + "'";
+
+	vector<string> res;
+	if (mysql_real_query(&mydata, query_sql.c_str(), query_sql.size())) {
+		cout << "查询失败，请检查命令是否正确！" << endl;
+		return res;
+	}
+
+	result = mysql_store_result(&mydata);
+	if (result) {
+		while (sql_row = mysql_fetch_row(result)) {			//获取具体的数据 
+			res.push_back(sql_row[0]);
+		}
+	}
+	// 释放数据库
+	if (result != NULL)
+		mysql_free_result(result);
+	mysql_close(&mydata);
+
+	return res;
+}
+
+MYSQL My_MySQL::MyQuery(string query_sql) {
+	
 	return mydata;
 }
 
 void My_MySQL::SetUserName(string UserName) {
 	username = UserName;
+}
+
+void My_MySQL::CloseMySql() {
+	mysql_close(&mydata);
 }
