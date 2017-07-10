@@ -1,4 +1,4 @@
-#include "myclient.h"
+﻿#include "myclient.h"
 
 MyClient::MyClient() :
     MaxLen(100),
@@ -73,7 +73,6 @@ void MyClient::GetFromServer(int order_type) {
         data_str = QString(QLatin1String(recvBuf));
         jsonDocument = QJsonDocument::fromJson(data_str.toLocal8Bit().data());
         jsonObject = jsonDocument.object();
-        //qDebug() << jsonObject;
         switch(jsonObject["order_type"].toInt()) {
         case EXIT_DATA:
             qDebug() << "数据传输结束！！！";

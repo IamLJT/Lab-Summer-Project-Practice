@@ -13,6 +13,7 @@
 #include<QFileInfo>
 #include<QVector>
 #include "myclient.h"
+#include "tabnamedialog.h"
 
 namespace Ui {
 class download;
@@ -42,7 +43,8 @@ private:
     Ui::download *ui;
     QString current_user;
     bool changFile=false;
-    QVector<QVector<QString> > fileDate;
+    QString fileName;
+    QVector<QStringList> fileDate;
 };
 
 #endif // DOWNLOAD_H

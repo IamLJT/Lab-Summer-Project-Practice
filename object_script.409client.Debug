@@ -1,0 +1,15 @@
+INPUT(
+./debug\main.o
+./debug\mainwindow.o
+./debug\download.o
+./debug\sing_in.o
+./debug\find_dialog.o
+./debug\myclient.o
+./debug\tabnamedialog.o
+./debug\qrc_resource.o
+./debug\moc_mainwindow.o
+./debug\moc_download.o
+./debug\moc_sing_in.o
+./debug\moc_find_dialog.o
+./debug\moc_tabnamedialog.o
+);
