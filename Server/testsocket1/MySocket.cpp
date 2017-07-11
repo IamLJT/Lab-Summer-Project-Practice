@@ -41,11 +41,11 @@ void MySocket::InitSocket() {
 
 //向客户端发送数据
 void MySocket::ListenClient() {
-	char recvBuf[MAXBYTE] = { 0 };
 	int insertflag = -1;
 
 	while (1) {
 		datasend.clear();
+		char recvBuf[MAXBYTE] = { 0 };
 		recvfrom(servSock, recvBuf, MAXBYTE, 0, (SOCKADDR*)&sockAddr, &nSize);
 		int order_list = -1;
 		Json::Value val;
@@ -138,9 +138,11 @@ void MySocket::ListenClient() {
 			datasend.clear();
 			int flag0 = INSERTTB_VALUE, flag = -1;
 			datasend["order_type"] = RINSRTTB_DATA;
-			if (false == Sql_data->ExistTable())
+			if (false == Sql_data->ExistTable()) {
 				flag0 = NEXISTB_VALUE;
+			}
 			while (1) {
+				memset(recvBuf, 0, MAXBYTE);
 				recvfrom(servSock, recvBuf, MAXBYTE, 0, (SOCKADDR*)&sockAddr, &nSize);
 				if (reader.parse(recvBuf, val)) {
 					order_list = val["order_type"].asInt();
@@ -149,6 +151,7 @@ void MySocket::ListenClient() {
 				if (INSERTTB_DATA == order_list) {
 					string x = val["x"].asString();
 					string y = val["y"].asString();
+					if (x.empty()) continue;
 					string dbname = val["db_name"].asString();
 					string tbname = val["tb_name"].asString();
 					Sql_data->SetDataBaseName(dbname);
@@ -165,12 +168,32 @@ void MySocket::ListenClient() {
 					}
 				}
 				else if (EXITINTB_DATA == order_list) {
+					Sql_data->CloseMySql();
 					datasend["value"] = flag0;
+					datasend_str = datasend.toStyledString();
+					//cout << datasend_str << endl;
+					sendto(servSock, datasend_str.c_str(), datasend_str.length() + 1, \
+						0, (SOCKADDR*)&sockAddr, nSize);
+					break;
+				}
+			}
+		}
+		else if (order_list == QUERY_ORDER) {
+			datasend["order_type"] = QUERY_DATA;
+			string content = val["content"].asString();
+			string dbname = val["db_name"].asString();
+			string tbname = val["tb_name"].asString();
+			Sql_data->SetDataBaseName(dbname);
+			Sql_data->SetTableName(tbname);
+			// 目前只能通过用户来查询
+			if ("USER" == content) {
+				vector<string> res = Sql_data->QueryTableByName();
+				for each (string var in res) {
+					datasend["table_name"] = var;
 					datasend_str = datasend.toStyledString();
 					cout << datasend_str << endl;
 					sendto(servSock, datasend_str.c_str(), datasend_str.length() + 1, \
 						0, (SOCKADDR*)&sockAddr, nSize);
-					break;
 				}
 			}
 		}

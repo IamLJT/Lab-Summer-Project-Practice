@@ -25,7 +25,7 @@ download::download(QWidget *parent) :
 
     // 获取数据库列表
     MyClient *db = new MyClient();
-    db->SetUserName("LJT");
+    db->SetUserName("qwer");
 
     db->GetDataBaseListFromServer();
     QStringList DbList = db->GetDataBaseList();
@@ -47,7 +47,7 @@ download::download(QWidget *parent) :
     db->SetDbName(dbname);
     db->CreateDataBase();
     // 新建表名
-    QString tbname = "ta";
+    QString tbname = "ta1";
     db->SetTbName(tbname);
     db->CreateTable();
 
@@ -57,6 +57,11 @@ download::download(QWidget *parent) :
         y.push_back("BBB");
     }
     db->InsertTable(x, y);
+
+    QVector<QStringList> dbveclist = db->QueryDataFromServer("USER");
+    qDebug() << dbname << "USER表名";
+    foreach (db_data, dbveclist[0])
+        qDebug() << db_data;
 
     // 删除前面新建的数据库和表
     //db->DeleteTable();

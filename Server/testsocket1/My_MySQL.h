@@ -28,9 +28,9 @@ public:
 	int DeleteTable();
 	bool ExistTable();
 	int InsertTable(string x, string y);
-	int QueryTable(string user = "ALL");
+	vector<string> QueryTableByName();
 
-	MYSQL MyQuery(string query_sql, string database);
+	MYSQL MyQuery(string query_sql);
 	void CloseMySql();
 
 private:
