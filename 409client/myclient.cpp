@@ -3,7 +3,7 @@
 MyClient::MyClient() :
     MaxLen(200),
     hostname("115.156.217.168"),
-    Port(1234)
+    Port(1235)
 {
     len = sizeof(SOCKADDR);
     // 初始化DLL
@@ -40,7 +40,7 @@ void MyClient::DeleteTable() {
     GetFromServer(DELETETB_ORDER);
 }
 
-QVector<QStringList> MyClient::QueryDataFromServer(QString QueryStr) {
+QVector<QStringList> MyClient::QueryDataFromServer(int QueryStr) {
     QueryOrder = QueryStr;
     GetFromServer(QUERY_ORDER);
     return QueryData;
@@ -87,8 +87,10 @@ void MyClient::GetFromServer(int order_type) {
         send_jsonobj.insert("content", QueryOrder);
         break;
     }
-    if ("USER" == QueryOrder)
+    if (TABLENAME_QUERY == QueryOrder || USERNAME_QUERY == QueryOrder)
         QueryData.resize(1);
+    else if (XYCONTENT_QUERY == QueryOrder)
+        QueryData.resize(2);
     QString order_str = QString(QJsonDocument(send_jsonobj).toJson());
     const char* sendBuf = order_str.toLatin1().data();
     int sendLen = order_str.length()+1;
@@ -201,8 +203,14 @@ void MyClient::GetFromServer(int order_type) {
             }
             break;
         case QUERY_DATA:
-            if ("USER" == QueryOrder)
+            if (TABLENAME_QUERY == QueryOrder)
                 QueryData[0].push_back(jsonObject["table_name"].toString());
+            else if (USERNAME_QUERY == QueryOrder)
+                QueryData[0].push_back(jsonObject["user_name"].toString());
+            else if (XYCONTENT_QUERY == QueryOrder) {
+                QueryData[0].push_back(jsonObject["x"].toString());
+                QueryData[1].push_back(jsonObject["y"].toString());
+            }
             break;
         }
     }

@@ -47,7 +47,7 @@ download::download(QWidget *parent) :
     db->SetDbName(dbname);
     db->CreateDataBase();
     // 新建表名
-    QString tbname = "ta1";
+    QString tbname = "ta";
     db->SetTbName(tbname);
     db->CreateTable();
 
@@ -58,10 +58,19 @@ download::download(QWidget *parent) :
     }
     db->InsertTable(x, y);
 
-    QVector<QStringList> dbveclist = db->QueryDataFromServer("USER");
-    qDebug() << dbname << "USER表名";
+    QVector<QStringList> dbveclist = db->QueryDataFromServer(TABLENAME_QUERY);
+    qDebug() << dbname << "USER表名:";
     foreach (db_data, dbveclist[0])
         qDebug() << db_data;
+    dbveclist = db->QueryDataFromServer(USERNAME_QUERY);
+    qDebug() << dbname << "users:";
+    foreach (db_data, dbveclist[0])
+        qDebug() << db_data;
+
+    dbveclist = db->QueryDataFromServer(XYCONTENT_QUERY);
+    qDebug() << dbname << "表" << tbname << "内容: x and y";
+    for (int i = 0; i < dbveclist[0].size(); ++i)
+        qDebug() << "x:" << dbveclist[0][i] << " y:" << dbveclist[1][i];
 
     // 删除前面新建的数据库和表
     //db->DeleteTable();
