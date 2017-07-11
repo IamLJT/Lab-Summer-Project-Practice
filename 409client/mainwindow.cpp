@@ -39,7 +39,6 @@ void MainWindow::on_pushButton_1_clicked()
 {
     download *down=new download();
     down->currentUser(ui->user_name->text());
-
     down->exec();
     if(down->getChangFile()){
         iniWidget(ui->user_name->text());
@@ -72,6 +71,12 @@ void MainWindow::on_pushButton_2_clicked()
    findFile->exec();
    delete findFile;
 }
+//更新tablewidget
+ void MainWindow::iniWidget(QString user){
+    if(!user.isEmpty()){
+       flushWidget(user);
+    }
+}
 //主界面tablewidget刷新
 void MainWindow::flushWidget(QString user){
     QSettings *userInfoRead = new QSettings("config/userInfo.ini", QSettings::IniFormat);
@@ -79,8 +84,6 @@ void MainWindow::flushWidget(QString user){
     QStringList keys=userInfoRead->allKeys();
     userInfoRead->endGroup();
      ui->tableWidget->clearContents();
-     if(keys.size())
-         return;
      qint32 row;
      qint32 row_index=0;
      QString col1,col2;
@@ -102,12 +105,7 @@ void MainWindow::flushWidget(QString user){
      }
      delete userInfoRead;
 }
-//更新tablewidget
- void MainWindow::iniWidget(QString user){
-    if(!user.isEmpty()){
-       flushWidget(user);
-    }
-}
+
 //退出登录按钮槽函数，删除该用户的相关信息
 void MainWindow::on_pushButton_6_clicked()
 {

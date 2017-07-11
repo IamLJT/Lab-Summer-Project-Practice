@@ -4,8 +4,8 @@ INPUT(
 ./debug\download.o
 ./debug\sing_in.o
 ./debug\find_dialog.o
-./debug\myclient.o
 ./debug\tabnamedialog.o
+./debug\myclient.o
 ./debug\qrc_resource.o
 ./debug\moc_mainwindow.o
 ./debug\moc_download.o

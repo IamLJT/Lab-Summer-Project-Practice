@@ -15,11 +15,15 @@ tabNameDialog::~tabNameDialog()
 QString tabNameDialog::getTabName(){
     return tabName;
 }
+bool tabNameDialog::getCoverFlag(){
+    return coverFlag;
+}
 void tabNameDialog::tabNameWrite(QString tab){
     tabName=tab;
 }
 void tabNameDialog::on_pushButton_clicked()
 {
+    coverFlag=true;
     accept();
 }
 

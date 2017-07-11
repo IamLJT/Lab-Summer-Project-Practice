@@ -33,8 +33,9 @@ SOURCES += \
         download.cpp    \
         sing_in.cpp     \
         find_dialog.cpp \
+    tabnamedialog.cpp \
     myclient.cpp \
-    tabnamedialog.cpp
+    creatdb.cpp
 
 HEADERS += \
         mainwindow.h    \
@@ -43,14 +44,16 @@ HEADERS += \
         find_dialog.h \
         order_define.h \
     myclient.h \
-    tabnamedialog.h
+    tabnamedialog.h \
+    creatdb.h
 
 FORMS += \
         mainwindow.ui   \
         download.ui     \
         sing_in.ui      \
         find_dialog.ui \
-    tabnamedialog.ui
+    tabnamedialog.ui \
+    creatdb.ui
 
 RESOURCES += \
         resource.qrc

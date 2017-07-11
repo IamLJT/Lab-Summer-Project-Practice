@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <QString>
 #include <QMessageBox>
+
 namespace Ui {
 class tabNameDialog;
 }
@@ -17,7 +18,7 @@ public:
     ~tabNameDialog();
     QString getTabName();
     void tabNameWrite(QString);
-
+    bool getCoverFlag();
 private slots:
     void on_pushButton_clicked();
 
@@ -26,6 +27,7 @@ private slots:
 private:
     Ui::tabNameDialog *ui;
     QString tabName;
+    bool coverFlag=false;
 };
 
 #endif // TABNAMEDIALOG_H

@@ -1,4 +1,4 @@
-#include "myclient.h"
+﻿#include "myclient.h"
 
 MyClient::MyClient() :
     MaxLen(200),
@@ -29,6 +29,7 @@ void MyClient::CreateDataBase() {
 }
 
 void MyClient::CreateTable() {
+    qDebug() << DB_name << " " << TB_name << " " << User_name;
     GetFromServer(CREATETB_ORDER);
 }
 
@@ -91,7 +92,7 @@ void MyClient::GetFromServer(int order_type) {
         data_str = QString(QLatin1String(recvBuf));
         jsonDocument = QJsonDocument::fromJson(data_str.toLocal8Bit().data());
         jsonObject = jsonDocument.object();
-        qDebug() << jsonObject;
+        //qDebug() << jsonObject;
         int stringlen = xString.size();
         switch(jsonObject["order_type"].toInt()) {
         case EXIT_DATA:
@@ -164,7 +165,7 @@ void MyClient::GetFromServer(int order_type) {
                 order_str = QString(QJsonDocument(send_jsonobj).toJson());
                 sendBuf = order_str.toLatin1().data();
                 sendLen = order_str.length()+1;
-                //qDebug() << send_jsonobj;
+                qDebug() << send_jsonobj;
                 // 发送命令
                 ::sendto(ClientSocket, sendBuf, sendLen, 0, (SOCKADDR*)&RecvAddr, sizeof(SOCKADDR));
             }

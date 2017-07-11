@@ -4,8 +4,8 @@ INPUT(
 ./release\download.o
 ./release\sing_in.o
 ./release\find_dialog.o
-./release\myclient.o
 ./release\tabnamedialog.o
+./release\myclient.o
 ./release\qrc_resource.o
 ./release\moc_mainwindow.o
 ./release\moc_download.o

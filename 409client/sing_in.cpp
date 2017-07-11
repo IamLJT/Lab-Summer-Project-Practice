@@ -12,9 +12,8 @@ sing_in::~sing_in()
     delete ui;
 }
 void sing_in::on_pushButton_2_clicked()
-{
-    QString name= ui->name->text();
-    user_name=name;
+{ 
+    user_name=ui->name->text();
     accept();
 }
 void sing_in::on_pushButton_clicked()
