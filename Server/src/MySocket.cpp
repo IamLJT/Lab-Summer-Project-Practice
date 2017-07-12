@@ -43,11 +43,25 @@ void MySocket::InitSocket() {
 //向客户端发送数据
 void MySocket::ListenClient() {
 	int insertflag = -1;
-
+	const int maxlen = 1000;
+	const int maxbyte = 25000;
+	/*Sql_data->SetUserName("zjh");
+	Sql_data->SetDataBaseName("zjh");
+	Sql_data->CreateDataBase();
+	Sql_data->SetTableName("ruili");
+	Sql_data->CreateTable();
+	Sql_data->ExistTable();
+	Sql_data->MyQuery("START TRANSACTION");
+	for (int i = 0; i < 10000; ++i) {
+		Sql_data->InsertTable("x", "y");
+	}
+	Sql_data->MyQuery("COMMIT");
+	Sql_data->CloseMySql();
+	*//**/
 	while (1) {
 		datasend.clear();
-		char recvBuf[MAXBYTE] = { 0 };
-		recvfrom(servSock, recvBuf, MAXBYTE, 0, (SOCKADDR*)&sockAddr, &nSize);
+		char recvBuf[maxbyte] = { 0 };
+		recvfrom(servSock, recvBuf, maxbyte, 0, (SOCKADDR*)&sockAddr, &nSize);
 		cout << recvBuf << endl;
 		int order_list = -1;
 		Json::Value val;
@@ -140,44 +154,53 @@ void MySocket::ListenClient() {
 				0, (SOCKADDR*)&sockAddr, nSize);
 
 			datasend.clear();
+			string dbname = val["db_name"].asString();
+			string tbname = val["tb_name"].asString();
+			Sql_data->SetDataBaseName(dbname);
+			Sql_data->SetTableName(tbname);
 			int flag0 = INSERTTB_VALUE, flag = -1;
-			datasend["order_type"] = RINSRTTB_DATA;
 			if (false == Sql_data->ExistTable()) {
 				flag0 = NEXISTB_VALUE;
 			}
 			Sql_data->MyQuery("START TRANSACTION");
 			while (1) {
-				memset(recvBuf, 0, MAXBYTE);
-				recvfrom(servSock, recvBuf, MAXBYTE, 0, (SOCKADDR*)&sockAddr, &nSize);
+				memset(recvBuf, 0, maxbyte);
+				recvfrom(servSock, recvBuf, maxbyte, 0, (SOCKADDR*)&sockAddr, &nSize);
 				if (reader.parse(recvBuf, val)) {
 					order_list = val["order_type"].asInt();
 				}
-				cout << recvBuf << endl;
+				vector<string> vx, vy;
+				cout << order_list << endl;
 				if (INSERTTB_DATA == order_list) {
+					cout << "正在插入..." << endl;
 					string x = val["x"].asString();
 					string y = val["y"].asString();
-					if (x.empty()) continue;
-					string dbname = val["db_name"].asString();
-					string tbname = val["tb_name"].asString();
-					Sql_data->SetDataBaseName(dbname);
-					Sql_data->SetTableName(tbname);
-					flag = Sql_data->InsertTable(x, y);
-					if (flag == NEXISTB_VALUE) {
-						flag0 = flag;
-						continue;
-					}
-					else if (flag == FINSRTTB_VALUE) {
-						if (flag0 != NEXISTB_VALUE)
+					SplitString(x, vx, " ");
+					SplitString(y, vy, " ");
+					if (vx.empty() || vy.empty()) continue;
+					//cout << "x:" << x << "\ny:" << y << "\nlen:" << vx.size();
+					for (int i = 0; i < vx.size(); ++i) {
+						if (vx[i].empty() || vy[i].empty()) continue;
+						flag = Sql_data->InsertTable(vx[i], vy[i]);
+						if (flag == NEXISTB_VALUE) {
 							flag0 = flag;
-						continue;
+							continue;
+						}
+						else if (flag == FINSRTTB_VALUE) {
+							if (flag0 != NEXISTB_VALUE)
+								flag0 = flag;
+							continue;
+						}
 					}
 				}
 				else if (EXITINTB_DATA == order_list) {
+					cout << "收到结束" << endl;
 					Sql_data->MyQuery("COMMIT");
 					Sql_data->CloseMySql();
+					datasend["order_type"] = RINSRTTB_DATA;
 					datasend["value"] = flag0;
 					datasend_str = datasend.toStyledString();
-					//cout << datasend_str << endl;
+					cout << "插入结束" << endl;
 					sendto(servSock, datasend_str.c_str(), datasend_str.length() + 1, \
 						0, (SOCKADDR*)&sockAddr, nSize);
 					break;
@@ -191,10 +214,28 @@ void MySocket::ListenClient() {
 			string tbname = val["tb_name"].asString();
 			Sql_data->SetDataBaseName(dbname);
 			Sql_data->SetTableName(tbname);
+			int count = 0;
+			int len;
+			string temp = "";
 			if (TABLENAME_QUERY == content) {
 				vector<string> res = Sql_data->QueryTableByName();
+				len = res.size();
 				for each (string var in res) {
-					datasend["table_name"] = var;
+					temp += var;
+					count++;
+					if (count % maxlen == 0) {
+						datasend["table_name"] = temp;
+						temp = "";
+						datasend_str = datasend.toStyledString();
+						sendto(servSock, datasend_str.c_str(), datasend_str.length() + 1, \
+							0, (SOCKADDR*)&sockAddr, nSize);
+					}
+					else if (count < len){
+						temp += " ";
+					}
+				}
+				if (count % maxlen) {
+					datasend["table_name"] = temp;
 					datasend_str = datasend.toStyledString();
 					cout << datasend_str << endl;
 					sendto(servSock, datasend_str.c_str(), datasend_str.length() + 1, \
@@ -203,8 +244,24 @@ void MySocket::ListenClient() {
 			}
 			else if (USERNAME_QUERY == content) {
 				vector<string> res = Sql_data->QueryTableUserName();
+				len = res.size();
 				for each (string var in res) {
-					datasend["user_name"] = var;
+					temp += var;
+					count++;
+					if (count % maxlen == 0) {
+						datasend["user_name"] = temp;
+						temp = "";
+						datasend_str = datasend.toStyledString();
+						cout << datasend_str << endl;
+						sendto(servSock, datasend_str.c_str(), datasend_str.length() + 1, \
+							0, (SOCKADDR*)&sockAddr, nSize);
+					}
+					else if (count < len) {
+						temp += " ";
+					}
+				}
+				if (count % maxlen) {
+					datasend["user_name"] = temp;
 					datasend_str = datasend.toStyledString();
 					cout << datasend_str << endl;
 					sendto(servSock, datasend_str.c_str(), datasend_str.length() + 1, \
@@ -213,17 +270,54 @@ void MySocket::ListenClient() {
 			}
 			else if (XYCONTENT_QUERY == content) {
 				vector<pair<string, string>> res = Sql_data->QueryTableByCont();
+				len = res.size();
+				string tempx = "", tempy = "";
 				for each (pair<string, string> var in res) {
-					datasend["x"] = var.first;
-					datasend["y"] = var.second;
+					tempx += var.first;
+					tempy += var.second;
+					count++;
+					if (count % maxlen == 0) {
+						datasend["x"] = tempx;
+						datasend["y"] = tempy;
+						tempx = "";
+						tempy = "";
+						datasend_str = datasend.toStyledString();
+						cout << datasend_str << endl;
+						sendto(servSock, datasend_str.c_str(), datasend_str.length() + 1, \
+							0, (SOCKADDR*)&sockAddr, nSize);
+					}
+					else if (count < len)
+						tempx += " ", tempy += " ";
+				}
+				if (count % maxlen) {
+					datasend["x"] = tempx;
+					datasend["y"] = tempy;
 					datasend_str = datasend.toStyledString();
 					cout << datasend_str << endl;
 					sendto(servSock, datasend_str.c_str(), datasend_str.length() + 1, \
 						0, (SOCKADDR*)&sockAddr, nSize);
 				}
 			}
+			cout << "查询成功！" << endl;
 		}
 		sendto(servSock, stopsend_str.c_str(), stopsend_str.length() + 1, \
 			0, (SOCKADDR*)&sockAddr, nSize);
+	}/**/
+}
+
+// 切割字符串
+void SplitString(const string& s, vector<string>& v, const string& c)
+{
+	string::size_type pos1, pos2;
+	pos2 = s.find(c);
+	pos1 = 0;
+	while (string::npos != pos2)
+	{
+		v.push_back(s.substr(pos1, pos2 - pos1));
+
+		pos1 = pos2 + c.size();
+		pos2 = s.find(c, pos1);
 	}
+	if (pos1 != s.length())
+		v.push_back(s.substr(pos1));
 }

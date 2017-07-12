@@ -39,3 +39,5 @@ private:
 	string datasend_str;
 };
 
+// ÇÐ¸î×Ö·û´®
+void SplitString(const string& s, vector<string>& v, const string& c);

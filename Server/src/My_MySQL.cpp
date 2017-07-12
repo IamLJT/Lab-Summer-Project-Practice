@@ -222,12 +222,10 @@ int My_MySQL::DeleteTable() {
 bool My_MySQL::ExistTable() {
 	mysql_real_connect(&mydata, hostname.c_str(), root.c_str(), \
 		passwd.c_str(), databasename.c_str(), port, NULL, 0);
-	string query_sql = "SELECT TABLE_NAME FROM ";
-	query_sql += "INFORMATION_SCHEMA.TABLES ";
-	query_sql += "WHERE TABLE_SCHEMA='";
-	query_sql += databasename;
-	query_sql += "' AND TABLE_NAME='";
-	query_sql += tablename + "'";
+	string query_sql = "SELECT TABLE_NAME FROM TABLES ";
+	query_sql += "WHERE TABLE_NAME='";
+	query_sql += tablename + "' AND USER='";
+	query_sql += username + "'";
 	// 判断表是否存在
 	mysql_real_query(&mydata, query_sql.c_str(), query_sql.size());
 	if (0 == mysql_num_rows(mysql_store_result(&mydata))) {
@@ -244,6 +242,7 @@ int My_MySQL::InsertTable(string x, string y) {
 		cout << "插入失败" << endl;
 		return FINSRTTB_VALUE;
 	}
+	//cout << "插入成功" << endl;
 	return INSERTTB_VALUE;
 }
 
@@ -258,6 +257,7 @@ vector<string> My_MySQL::QueryTableByName() {
 	vector<string> res;
 	if (mysql_real_query(&mydata, query_sql.c_str(), query_sql.size())) {
 		cout << "查询失败，请检查命令是否正确！" << endl;
+		mysql_close(&mydata);
 		return res;
 	}
 

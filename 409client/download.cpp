@@ -25,7 +25,7 @@ download::download(QWidget *parent) :
 
     // 获取数据库列表
     MyClient *db = new MyClient();
-    db->SetUserName("qwer");
+    db->SetUserName("zjh");
 
     db->GetDataBaseListFromServer();
     QStringList DbList = db->GetDataBaseList();
@@ -43,34 +43,34 @@ download::download(QWidget *parent) :
         qDebug() << db_data;
 
     // 新建数据库名
-    dbname = "sss";
+    dbname = "zjh";
     db->SetDbName(dbname);
     db->CreateDataBase();
     // 新建表名
-    QString tbname = "ta";
+    QString tbname = "ruili";
     db->SetTbName(tbname);
     db->CreateTable();
 
     QVector<QString> x, y;
-    for (int i = 0; i < 10; ++i) {
+    for (int i = 0; i < 11000; ++i) {
         x.push_back("AAA");
         y.push_back("BBB");
     }
     db->InsertTable(x, y);
 
-    QVector<QStringList> dbveclist = db->QueryDataFromServer(TABLENAME_QUERY);
-    qDebug() << dbname << "USER表名:";
-    foreach (db_data, dbveclist[0])
-        qDebug() << db_data;
-    dbveclist = db->QueryDataFromServer(USERNAME_QUERY);
-    qDebug() << dbname << "users:";
-    foreach (db_data, dbveclist[0])
-        qDebug() << db_data;
+//    QVector<QStringList> dbveclist = db->QueryDataFromServer(TABLENAME_QUERY);
+//    qDebug() << dbname << "USER表名:";
+//    foreach (db_data, dbveclist[0])
+//        qDebug() << db_data;
+//    dbveclist = db->QueryDataFromServer(USERNAME_QUERY);
+//    qDebug() << dbname << "users:";
+//    foreach (db_data, dbveclist[0])
+//        qDebug() << db_data;
 
-    dbveclist = db->QueryDataFromServer(XYCONTENT_QUERY);
-    qDebug() << dbname << "表" << tbname << "内容: x and y";
-    for (int i = 0; i < dbveclist[0].size(); ++i)
-        qDebug() << "x:" << dbveclist[0][i] << " y:" << dbveclist[1][i];
+//    QVector<QStringList> dbveclist = db->QueryDataFromServer(XYCONTENT_QUERY);
+//    qDebug() << dbname << "表" << tbname << "内容: x and y";
+//    for (int i = 0; i < dbveclist[0].size(); ++i)
+//        qDebug() << "x:" << dbveclist[0][i] << " y:" << dbveclist[1][i];
 
     // 删除前面新建的数据库和表
     //db->DeleteTable();

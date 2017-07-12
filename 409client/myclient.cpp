@@ -1,7 +1,6 @@
 #include "myclient.h"
 
 MyClient::MyClient() :
-    MaxLen(200),
     hostname("115.156.217.168"),
     Port(1235)
 {
@@ -54,6 +53,8 @@ void MyClient::InsertTable(QVector<QString> x, QVector<QString> y) {
 }
 
 void MyClient::GetFromServer(int order_type) {
+    const int maxbyte = 25000;
+    const int maxlen = 1000;
     // Json数据流
     QJsonDocument jsonDocument;
     QJsonObject jsonObject;
@@ -97,16 +98,18 @@ void MyClient::GetFromServer(int order_type) {
     // 发送命令
     ::sendto(ClientSocket, sendBuf, sendLen, 0, (SOCKADDR*)&RecvAddr, sizeof(SOCKADDR));
     // 接收数据
-    char recvBuf[MaxLen] = { 0 };
+    char recvBuf[maxbyte] = { 0 };
     bool isStop = false;
 
     while (!isStop) {
-        ::recvfrom(ClientSocket, recvBuf, MaxLen, 0, (SOCKADDR*)&RecvAddr, &len);
+        int count  = 0;
+        QString tempx = "", tempy = "";
+        ::recvfrom(ClientSocket, recvBuf, maxbyte, 0, (SOCKADDR*)&RecvAddr, &len);
         if ('\0' == recvBuf[0]) { qDebug() << "服务器未打开！"; break; }
         data_str = QString(QLatin1String(recvBuf));
         jsonDocument = QJsonDocument::fromJson(data_str.toLocal8Bit().data());
         jsonObject = jsonDocument.object();
-        qDebug() << jsonObject;
+        //qDebug() << jsonObject;
         int stringlen = xString.size();
         switch(jsonObject["order_type"].toInt()) {
         case EXIT_DATA:
@@ -174,42 +177,75 @@ void MyClient::GetFromServer(int order_type) {
         case INSERTTB_DATA:
             send_jsonobj["order_type"] = INSERTTB_DATA;
             for (int i = 0; i < stringlen; ++i) {
-                send_jsonobj.insert("x", xString[i]);
-                send_jsonobj.insert("y", yString[i]);
+                count++;
+                if (xString[i].isEmpty() || yString[i].isEmpty())
+                    continue;
+                tempx += xString[i];
+                tempy += yString[i];
+                if (count % maxlen == 0) {
+                    send_jsonobj.remove("x");
+                    send_jsonobj.remove("y");
+                    send_jsonobj.insert("x", tempx);
+                    send_jsonobj.insert("y", tempy);
+                    tempx = "";
+                    tempy = "";
+                    order_str = QString(QJsonDocument(send_jsonobj).toJson());
+                    sendBuf = order_str.toLatin1().data();
+                    sendLen = order_str.length()+1;
+                    //qDebug() << send_jsonobj;
+                    // 发送命令
+                    ::sendto(ClientSocket, sendBuf, sendLen, 0, (SOCKADDR*)&RecvAddr, sizeof(SOCKADDR));
+                }
+                else if (count < stringlen)
+                    tempx += " ", tempy += " ";
+            }
+            if (count % maxlen) {
+                send_jsonobj.remove("x");
+                send_jsonobj.remove("y");
+                send_jsonobj.insert("x", tempx);
+                send_jsonobj.insert("y", tempy);
                 order_str = QString(QJsonDocument(send_jsonobj).toJson());
                 sendBuf = order_str.toLatin1().data();
                 sendLen = order_str.length()+1;
-                //qDebug() << send_jsonobj;
-                // 发送命令
                 ::sendto(ClientSocket, sendBuf, sendLen, 0, (SOCKADDR*)&RecvAddr, sizeof(SOCKADDR));
             }
-            send_jsonobj.insert("order_type", EXITINTB_DATA);
+            send_jsonobj.remove("x");
+            send_jsonobj.remove("y");
+            send_jsonobj["order_type"] = EXITINTB_DATA;
             order_str = QString(QJsonDocument(send_jsonobj).toJson());
             sendBuf = order_str.toLatin1().data();
             sendLen = order_str.length()+1;
             ::sendto(ClientSocket, sendBuf, sendLen, 0, (SOCKADDR*)&RecvAddr, sizeof(SOCKADDR));
-            break;
-        case RINSRTTB_DATA:
-            switch(jsonObject["value"].toInt()) {
-            case NEXISTB_VALUE:
-                qDebug() << "该表不存在！";
-                break;
-            case FINSRTTB_VALUE:
-                qDebug() << "表" << TB_name << "插入数据失败！请检查原因！";
-                break;
-            case INSERTTB_VALUE:
-                qDebug() << "表" << TB_name << "插入数据成功";
-                break;
+            qDebug() << "结束传输" << send_jsonobj;
+            ::recvfrom(ClientSocket, recvBuf, maxbyte, 0, (SOCKADDR*)&RecvAddr, &len);
+            if (RINSRTTB_DATA == jsonObject["order_type"].toInt()) {
+                qDebug() << "收到结束返回";
+                data_str = QString(QLatin1String(recvBuf));
+                jsonDocument = QJsonDocument::fromJson(data_str.toLocal8Bit().data());
+                jsonObject = jsonDocument.object();
+                //qDebug() << send_jsonobj;
+                switch(jsonObject["value"].toInt()) {
+                case NEXISTB_VALUE:
+                    qDebug() << "该表不存在！";
+                    break;
+                case FINSRTTB_VALUE:
+                    qDebug() << "表" << TB_name << "插入数据失败！请检查原因！";
+                    break;
+                case INSERTTB_VALUE:
+                    qDebug() << "表" << TB_name << "插入数据成功";
+                    break;
+                }
             }
             break;
         case QUERY_DATA:
+            qDebug() << "查询成功";
             if (TABLENAME_QUERY == QueryOrder)
-                QueryData[0].push_back(jsonObject["table_name"].toString());
+                QueryData[0].append(jsonObject["table_name"].toString().split(" "));
             else if (USERNAME_QUERY == QueryOrder)
-                QueryData[0].push_back(jsonObject["user_name"].toString());
+                QueryData[0].append(jsonObject["user_name"].toString().split(" "));
             else if (XYCONTENT_QUERY == QueryOrder) {
-                QueryData[0].push_back(jsonObject["x"].toString());
-                QueryData[1].push_back(jsonObject["y"].toString());
+                QueryData[0].append(jsonObject["x"].toString().split(" "));
+                QueryData[1].append(jsonObject["y"].toString().split(" "));
             }
             break;
         }

@@ -49,7 +49,6 @@ private:
     int Port;               // 端口
 
     // 常用的变量
-    const int MaxLen;
     int len;
     QVector<QString> xString;
     QVector<QString> yString;
