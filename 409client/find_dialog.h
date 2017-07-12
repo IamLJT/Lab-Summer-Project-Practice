@@ -4,7 +4,10 @@
 #include <QDialog>
 #include<myclient.h>
 #include<QSettings>
-
+#include<QFileDialog>
+#include<QFile>
+#include<QMessageBox>
+#include<QTextStream>
 namespace Ui {
 class find_dialog;
 }
@@ -19,6 +22,12 @@ public:
 
 private slots:
     void on_comboBox_activated(const QString &arg1);
+
+    void on_pushButton_2_clicked();
+
+    void on_pushButton_clicked();
+
+    void on_pushButton_4_clicked();
 
 private:
     Ui::find_dialog *ui;

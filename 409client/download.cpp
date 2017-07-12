@@ -91,7 +91,11 @@ void download::on_pushButton_2_clicked()
     if(!txt_file.open(QIODevice::ReadOnly))
         QMessageBox::information(this,"提示","文件打开失败");
     else{
+        //---------清空之前的数据-----------------
         ui->tableWidget->clearContents();
+        ui->tableWidget->setRowCount(0);
+        xFileDate.clear();
+        yFileDate.clear();
         fileName=file_name;
         QTextStream in(&txt_file);
         qint32 row;
@@ -120,6 +124,7 @@ void download::on_pushButton_2_clicked()
 void download::on_pushButton_3_clicked()
 {
      ui->tableWidget->clearContents();
+     ui->tableWidget->setRowCount(0);
      ui->date_name_label->clear();
      xFileDate.clear();
      yFileDate.clear();
@@ -188,13 +193,14 @@ void download::on_pushButton_clicked()
         db->CreateTable();
         //上传数据 fileDate
         int rowNum=ui->tableWidget->rowCount();
+        if(!xFileDate.isEmpty()){
         for(int i=0;i<rowNum;++i){
             xFileDate[i]=ui->tableWidget->item(i,0)->text();
             yFileDate[i]=ui->tableWidget->item(i,1)->text();
         }
         db->InsertTable(xFileDate,yFileDate);
         delete db;
-
+        }
         on_pushButton_5_clicked();
     }
 }

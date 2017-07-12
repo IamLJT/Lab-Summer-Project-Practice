@@ -18,8 +18,8 @@
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
+#include <QtWidgets/QListWidget>
 #include <QtWidgets/QPushButton>
-#include <QtWidgets/QTableView>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 
@@ -40,13 +40,15 @@ public:
     QVBoxLayout *verticalLayout;
     QPushButton *pushButton_2;
     QPushButton *pushButton;
-    QTableView *tableView;
+    QPushButton *pushButton_4;
+    QPushButton *pushButton_3;
+    QListWidget *listWidget;
 
     void setupUi(QDialog *find_dialog)
     {
         if (find_dialog->objectName().isEmpty())
             find_dialog->setObjectName(QStringLiteral("find_dialog"));
-        find_dialog->resize(450, 350);
+        find_dialog->resize(380, 320);
         horizontalLayoutWidget = new QWidget(find_dialog);
         horizontalLayoutWidget->setObjectName(QStringLiteral("horizontalLayoutWidget"));
         horizontalLayoutWidget->setGeometry(QRect(20, 50, 171, 31));
@@ -86,7 +88,7 @@ public:
         horizontalLayout_2->setStretch(1, 5);
         verticalLayoutWidget = new QWidget(find_dialog);
         verticalLayoutWidget->setObjectName(QStringLiteral("verticalLayoutWidget"));
-        verticalLayoutWidget->setGeometry(QRect(350, 140, 71, 131));
+        verticalLayoutWidget->setGeometry(QRect(290, 110, 77, 161));
         verticalLayout = new QVBoxLayout(verticalLayoutWidget);
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
         verticalLayout->setContentsMargins(0, 0, 0, 0);
@@ -100,14 +102,19 @@ public:
 
         verticalLayout->addWidget(pushButton);
 
-        tableView = new QTableView(find_dialog);
-        tableView->setObjectName(QStringLiteral("tableView"));
-        tableView->setGeometry(QRect(20, 90, 280, 230));
-        horizontalLayoutWidget->raise();
-        horizontalLayoutWidget_2->raise();
-        label->raise();
-        verticalLayoutWidget->raise();
-        tableView->raise();
+        pushButton_4 = new QPushButton(verticalLayoutWidget);
+        pushButton_4->setObjectName(QStringLiteral("pushButton_4"));
+
+        verticalLayout->addWidget(pushButton_4);
+
+        pushButton_3 = new QPushButton(verticalLayoutWidget);
+        pushButton_3->setObjectName(QStringLiteral("pushButton_3"));
+
+        verticalLayout->addWidget(pushButton_3);
+
+        listWidget = new QListWidget(find_dialog);
+        listWidget->setObjectName(QStringLiteral("listWidget"));
+        listWidget->setGeometry(QRect(20, 90, 256, 192));
 
         retranslateUi(find_dialog);
 
@@ -121,6 +128,8 @@ public:
         label_2->setText(QApplication::translate("find_dialog", "\346\225\260\346\215\256\345\272\223\357\274\232", Q_NULLPTR));
         pushButton_2->setText(QApplication::translate("find_dialog", "\346\237\245\350\257\242", Q_NULLPTR));
         pushButton->setText(QApplication::translate("find_dialog", "\344\270\213\350\275\275", Q_NULLPTR));
+        pushButton_4->setText(QApplication::translate("find_dialog", "\345\210\240\351\231\244", Q_NULLPTR));
+        pushButton_3->setText(QApplication::translate("find_dialog", "\347\273\230\345\233\276", Q_NULLPTR));
     } // retranslateUi
 
 };

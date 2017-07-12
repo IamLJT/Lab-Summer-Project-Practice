@@ -221,6 +221,7 @@ Makefile: 409client.pro C:/Qt/Qt5.9.0/5.9/mingw53_32/mkspecs/win32-g++/qmake.con
 		C:/Qt/Qt5.9.0/5.9/mingw53_32/lib/qtmaind.prl \
 		C:/Qt/Qt5.9.0/5.9/mingw53_32/lib/Qt5AxContainer.prl \
 		C:/Qt/Qt5.9.0/5.9/mingw53_32/lib/Qt5AxBase.prl \
+		C:/Qt/Qt5.9.0/5.9/mingw53_32/lib/Qt5PrintSupport.prl \
 		C:/Qt/Qt5.9.0/5.9/mingw53_32/lib/Qt5Widgets.prl \
 		C:/Qt/Qt5.9.0/5.9/mingw53_32/lib/Qt5Gui.prl \
 		C:/Qt/Qt5.9.0/5.9/mingw53_32/lib/Qt5Network.prl \
@@ -385,6 +386,7 @@ C:/Qt/Qt5.9.0/5.9/mingw53_32/mkspecs/features/lex.prf:
 C:/Qt/Qt5.9.0/5.9/mingw53_32/lib/qtmaind.prl:
 C:/Qt/Qt5.9.0/5.9/mingw53_32/lib/Qt5AxContainer.prl:
 C:/Qt/Qt5.9.0/5.9/mingw53_32/lib/Qt5AxBase.prl:
+C:/Qt/Qt5.9.0/5.9/mingw53_32/lib/Qt5PrintSupport.prl:
 C:/Qt/Qt5.9.0/5.9/mingw53_32/lib/Qt5Widgets.prl:
 C:/Qt/Qt5.9.0/5.9/mingw53_32/lib/Qt5Gui.prl:
 C:/Qt/Qt5.9.0/5.9/mingw53_32/lib/Qt5Network.prl:

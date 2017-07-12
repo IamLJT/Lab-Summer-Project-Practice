@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>450</width>
-    <height>350</height>
+    <width>380</width>
+    <height>320</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -63,10 +63,10 @@
   <widget class="QWidget" name="verticalLayoutWidget">
    <property name="geometry">
     <rect>
-     <x>350</x>
-     <y>140</y>
-     <width>71</width>
-     <height>131</height>
+     <x>290</x>
+     <y>110</y>
+     <width>77</width>
+     <height>161</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -84,23 +84,32 @@
       </property>
      </widget>
     </item>
+    <item>
+     <widget class="QPushButton" name="pushButton_4">
+      <property name="text">
+       <string>删除</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="pushButton_3">
+      <property name="text">
+       <string>绘图</string>
+      </property>
+     </widget>
+    </item>
    </layout>
   </widget>
-  <widget class="QTableView" name="tableView">
+  <widget class="QListWidget" name="listWidget">
    <property name="geometry">
     <rect>
      <x>20</x>
      <y>90</y>
-     <width>280</width>
-     <height>230</height>
+     <width>256</width>
+     <height>192</height>
     </rect>
    </property>
   </widget>
-  <zorder>horizontalLayoutWidget</zorder>
-  <zorder>horizontalLayoutWidget_2</zorder>
-  <zorder>label</zorder>
-  <zorder>verticalLayoutWidget</zorder>
-  <zorder>tableView</zorder>
  </widget>
  <resources/>
  <connections/>

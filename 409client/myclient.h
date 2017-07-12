@@ -1,4 +1,4 @@
-#ifndef MYCLIENT_H
+﻿#ifndef MYCLIENT_H
 #define MYCLIENT_H
 
 #include <QStringList>
@@ -18,11 +18,15 @@ public:
     void DeleteTable();                 // 删除数据库中表
     QStringList GetTableList();         // 获取本地数据库中的表内容
     QStringList GetDataBaseList();      // 获取本地数据库列表
-    QVector<QStringList> QueryDataFromServer(QString QueryStr);    // 查询数据
+    QStringList GetUserNameList();      // 获取当前表的用户
+    void GetTableContent();             // 获取表内容
+
+    QVector<QStringList> QueryDataFromServer(int QueryStr);    // 查询数据
 
     void SetDbName(QString dbname);     // 设置数据库名
     void SetTbName(QString tbname);     // 设置表名
     void SetUserName(QString username); // 设置用户名
+    void SetTbContent(QVector<QString>& x, QVector<QString>& y);// 设置表内容
 
     void InsertTable(QVector<QString> x, QVector<QString> y);   // 向表插入内容
 
@@ -45,11 +49,10 @@ private:
     int Port;               // 端口
 
     // 常用的变量
-    const int MaxLen;
     int len;
     QVector<QString> xString;
     QVector<QString> yString;
-    QString QueryOrder;
+    int QueryOrder;
     QVector<QStringList> QueryData;
 };
 

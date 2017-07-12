@@ -1,8 +1,6 @@
 ﻿#include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "download.h"
-#include "sing_in.h"
-#include "find_dialog.h"
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -28,6 +26,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->user_name->setText(user);
     delete userInfoRead;
     iniWidget(user);
+    //CommonHelper::setStyle("white.qss");
 }
 
 MainWindow::~MainWindow()
@@ -39,6 +38,7 @@ void MainWindow::on_pushButton_1_clicked()
 {
     download *down=new download();
     down->currentUser(ui->user_name->text());
+    down->setWindowTitle("上传");
     down->exec();
     if(down->getChangFile()){
         iniWidget(ui->user_name->text());
@@ -68,6 +68,7 @@ void MainWindow::on_pushButton_4_clicked()
 void MainWindow::on_pushButton_2_clicked()
 {
    find_dialog *findFile=new find_dialog();
+   findFile->setWindowTitle("数据库查询");
    findFile->exec();
    delete findFile;
 }
@@ -84,6 +85,7 @@ void MainWindow::flushWidget(QString user){
     QStringList keys=userInfoRead->allKeys();
     userInfoRead->endGroup();
      ui->tableWidget->clearContents();
+     ui->tableWidget->setRowCount(0);
      qint32 row;
      qint32 row_index=0;
      QString col1,col2;
@@ -135,4 +137,11 @@ void MainWindow::on_pushButton_5_clicked()
         delete userInfoWrite;
         flushWidget(currentName);
     }
+}
+//绘图
+void MainWindow::on_pushButton_clicked()
+{
+  PlotWindow *plot=new PlotWindow();
+  plot->setWindowTitle("绘图");
+  plot->show();//关闭窗口之后自动调用析构函数，不需要自己进行 删除操作
 }

@@ -3,8 +3,11 @@
 
 #include <QMainWindow>
 #include<QSettings>
-
-
+#include"plotwindow.h"
+#include "download.h"
+#include "sing_in.h"
+#include "find_dialog.h"
+#include"pifu.h"
 namespace Ui {
 class MainWindow;
 }
@@ -26,6 +29,8 @@ private slots:
     void on_pushButton_2_clicked();
     void on_pushButton_6_clicked();
     void on_pushButton_5_clicked();
+
+    void on_pushButton_clicked();
 
 public:
     Ui::MainWindow *ui;

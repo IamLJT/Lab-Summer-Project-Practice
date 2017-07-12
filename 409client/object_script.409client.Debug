@@ -7,6 +7,8 @@ INPUT(
 ./debug\tabnamedialog.o
 ./debug\myclient.o
 ./debug\creatdb.o
+./debug\qcustomplot.o
+./debug\plotwindow.o
 ./debug\qrc_resource.o
 ./debug\moc_mainwindow.o
 ./debug\moc_download.o
@@ -14,4 +16,6 @@ INPUT(
 ./debug\moc_find_dialog.o
 ./debug\moc_tabnamedialog.o
 ./debug\moc_creatdb.o
+./debug\moc_qcustomplot.o
+./debug\moc_plotwindow.o
 );

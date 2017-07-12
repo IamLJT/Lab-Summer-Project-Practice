@@ -87,13 +87,13 @@ public:
         label->setGeometry(QRect(30, 90, 36, 12));
         pushButton_6 = new QPushButton(centralWidget);
         pushButton_6->setObjectName(QStringLiteral("pushButton_6"));
-        pushButton_6->setGeometry(QRect(410, 80, 75, 23));
+        pushButton_6->setGeometry(QRect(410, 70, 75, 23));
         tableWidget = new QTableWidget(centralWidget);
         tableWidget->setObjectName(QStringLiteral("tableWidget"));
         tableWidget->setGeometry(QRect(30, 110, 341, 201));
         verticalLayoutWidget = new QWidget(centralWidget);
         verticalLayoutWidget->setObjectName(QStringLiteral("verticalLayoutWidget"));
-        verticalLayoutWidget->setGeometry(QRect(400, 120, 81, 151));
+        verticalLayoutWidget->setGeometry(QRect(400, 130, 81, 151));
         verticalLayout = new QVBoxLayout(verticalLayoutWidget);
         verticalLayout->setSpacing(6);
         verticalLayout->setContentsMargins(11, 11, 11, 11);
