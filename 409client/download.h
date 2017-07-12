@@ -13,6 +13,9 @@
 #include<QFileInfo>
 #include<QVector>
 #include "myclient.h"
+#include "tabnamedialog.h"
+#include<QTableWidgetItem>
+#include<creatdb.h>
 
 namespace Ui {
 class download;
@@ -38,11 +41,19 @@ private slots:
     
     void on_pushButton_clicked();
 
+    void on_comboBox_activated(const QString &arg1);
+
+    void on_pushButton_6_clicked();
+
 private:
     Ui::download *ui;
     QString current_user;
     bool changFile=false;
-    QVector<QVector<QString> > fileDate;
+    QString fileName;
+    QVector<QString> xFileDate;
+    QVector<QString> yFileDate;
+    int modifyCol;
+    int modifyRow;
 };
 
 #endif // DOWNLOAD_H

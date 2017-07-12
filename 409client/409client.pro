@@ -7,6 +7,7 @@
 QT       += core gui
 QT       += axcontainer
 QT       += network
+QT       += printsupport
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -33,7 +34,11 @@ SOURCES += \
         download.cpp    \
         sing_in.cpp     \
         find_dialog.cpp \
-    myclient.cpp
+    tabnamedialog.cpp \
+    myclient.cpp \
+    creatdb.cpp \
+    qcustomplot.cpp \
+    plotwindow.cpp
 
 HEADERS += \
         mainwindow.h    \
@@ -41,13 +46,21 @@ HEADERS += \
         sing_in.h       \
         find_dialog.h \
         order_define.h \
-    myclient.h
+    myclient.h \
+    tabnamedialog.h \
+    creatdb.h \
+    qcustomplot.h \
+    pifu.h \
+    plotwindow.h
 
 FORMS += \
         mainwindow.ui   \
         download.ui     \
         sing_in.ui      \
-        find_dialog.ui
+        find_dialog.ui \
+    tabnamedialog.ui \
+    creatdb.ui \
+    plotwindow.ui
 
 RESOURCES += \
         resource.qrc

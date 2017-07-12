@@ -1,8 +1,6 @@
 ﻿#include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "download.h"
-#include "sing_in.h"
-#include "find_dialog.h"
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -28,6 +26,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->user_name->setText(user);
     delete userInfoRead;
     iniWidget(user);
+    //CommonHelper::setStyle("white.qss");
 }
 
 MainWindow::~MainWindow()
@@ -39,6 +38,7 @@ void MainWindow::on_pushButton_1_clicked()
 {
     download *down=new download();
     down->currentUser(ui->user_name->text());
+    down->setWindowTitle("上传");
     down->exec();
     if(down->getChangFile()){
         iniWidget(ui->user_name->text());
@@ -68,16 +68,24 @@ void MainWindow::on_pushButton_4_clicked()
 void MainWindow::on_pushButton_2_clicked()
 {
    find_dialog *findFile=new find_dialog();
+   findFile->setWindowTitle("数据库查询");
    findFile->exec();
    delete findFile;
 }
-//主界面tablewidget初始化
+//更新tablewidget
+ void MainWindow::iniWidget(QString user){
+    if(!user.isEmpty()){
+       flushWidget(user);
+    }
+}
+//主界面tablewidget刷新
 void MainWindow::flushWidget(QString user){
     QSettings *userInfoRead = new QSettings("config/userInfo.ini", QSettings::IniFormat);
     userInfoRead->beginGroup(user);
     QStringList keys=userInfoRead->allKeys();
     userInfoRead->endGroup();
      ui->tableWidget->clearContents();
+     ui->tableWidget->setRowCount(0);
      qint32 row;
      qint32 row_index=0;
      QString col1,col2;
@@ -99,20 +107,7 @@ void MainWindow::flushWidget(QString user){
      }
      delete userInfoRead;
 }
- void MainWindow::iniWidget(QString user){
-    //载入配置文件,前缀前面的config不要加/，否则不是访问当前目录
-   /*QSettings *userInfoRead = new QSettings("config/userInfo.ini", QSettings::IniFormat);
-    userInfoRead->beginGroup(user);
-    QStringList keys=userInfoRead->allKeys();
-    userInfoRead->endGroup();
-     if(!user.isEmpty()&&keys.size()){
-        flushWidget(user);
-     }
-     delete userInfoRead;*/
-    if(!user.isEmpty()){
-       flushWidget(user);
-    }
-}
+
 //退出登录按钮槽函数，删除该用户的相关信息
 void MainWindow::on_pushButton_6_clicked()
 {
@@ -142,4 +137,11 @@ void MainWindow::on_pushButton_5_clicked()
         delete userInfoWrite;
         flushWidget(currentName);
     }
+}
+//绘图
+void MainWindow::on_pushButton_clicked()
+{
+  PlotWindow *plot=new PlotWindow();
+  plot->setWindowTitle("绘图");
+  plot->show();//关闭窗口之后自动调用析构函数，不需要自己进行 删除操作
 }

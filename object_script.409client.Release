@@ -1,0 +1,15 @@
+INPUT(
+./release\main.o
+./release\mainwindow.o
+./release\download.o
+./release\sing_in.o
+./release\find_dialog.o
+./release\tabnamedialog.o
+./release\myclient.o
+./release\qrc_resource.o
+./release\moc_mainwindow.o
+./release\moc_download.o
+./release\moc_sing_in.o
+./release\moc_find_dialog.o
+./release\moc_tabnamedialog.o
+);

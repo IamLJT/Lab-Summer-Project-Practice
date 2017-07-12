@@ -2,5 +2,6 @@
     <qresource prefix="/">
         <file>icon/doc-open.png</file>
         <file>config/userInfo.ini</file>
+        <file>white.qss</file>
     </qresource>
 </RCC>
