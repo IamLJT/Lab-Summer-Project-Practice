@@ -50,4 +50,9 @@
 #define SUCSQTB_VALUE	1   //  查询成功
 #define FAILQTB_VALUE	2   //  查询失败
 
+                                    // 查询内容
+#define USERNAME_QUERY  0	// 查询当前表的用户名
+#define TABLENAME_QUERY 1	// 查询当前用户的表名
+#define XYCONTENT_QUERY 2   // 查询当前表的xy内容
+
 #endif // ORDER_DEFINE_H
