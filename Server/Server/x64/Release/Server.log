@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿  json_reader.cpp
 ..\json\json_reader.cpp(7): fatal error C1083: 无法打开包括文件: “json/reader.h”: No such file or directory
   json_value.cpp
@@ -10,3 +11,29 @@ e:\github\lab-summer-project-practice\server\src\My_MySQL.h(2): fatal error C108
 e:\github\lab-summer-project-practice\server\src\My_MySQL.h(2): fatal error C1083: 无法打开包括文件: “mysql.h”: No such file or directory
   server.cpp
 e:\github\lab-summer-project-practice\server\src\My_MySQL.h(2): fatal error C1083: 无法打开包括文件: “mysql.h”: No such file or directory
+=======
+﻿  My_MySQL.cpp
+..\src\My_MySQL.cpp(61): warning C4267: “参数”: 从“size_t”转换到“unsigned long”，可能丢失数据
+..\src\My_MySQL.cpp(98): warning C4267: “参数”: 从“size_t”转换到“unsigned long”，可能丢失数据
+..\src\My_MySQL.cpp(116): warning C4267: “参数”: 从“size_t”转换到“unsigned long”，可能丢失数据
+..\src\My_MySQL.cpp(147): warning C4267: “参数”: 从“size_t”转换到“unsigned long”，可能丢失数据
+..\src\My_MySQL.cpp(163): warning C4267: “参数”: 从“size_t”转换到“unsigned long”，可能丢失数据
+..\src\My_MySQL.cpp(174): warning C4267: “参数”: 从“size_t”转换到“unsigned long”，可能丢失数据
+..\src\My_MySQL.cpp(190): warning C4267: “参数”: 从“size_t”转换到“unsigned long”，可能丢失数据
+..\src\My_MySQL.cpp(219): warning C4267: “参数”: 从“size_t”转换到“unsigned long”，可能丢失数据
+..\src\My_MySQL.cpp(236): warning C4267: “参数”: 从“size_t”转换到“unsigned long”，可能丢失数据
+..\src\My_MySQL.cpp(243): warning C4267: “参数”: 从“size_t”转换到“unsigned long”，可能丢失数据
+..\src\My_MySQL.cpp(261): warning C4267: “参数”: 从“size_t”转换到“unsigned long”，可能丢失数据
+..\src\My_MySQL.cpp(273): warning C4267: “参数”: 从“size_t”转换到“unsigned long”，可能丢失数据
+..\src\My_MySQL.cpp(291): warning C4267: “参数”: 从“size_t”转换到“unsigned long”，可能丢失数据
+..\src\My_MySQL.cpp(318): warning C4267: “参数”: 从“size_t”转换到“unsigned long”，可能丢失数据
+..\src\My_MySQL.cpp(345): warning C4267: “参数”: 从“size_t”转换到“unsigned long”，可能丢失数据
+..\src\My_MySQL.cpp(367): warning C4267: “参数”: 从“size_t”转换到“unsigned long”，可能丢失数据
+  正在生成代码
+  14 of 944 functions ( 1.5%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    32 functions had inline decision re-evaluated but remain unchanged
+  已完成代码的生成
+  Server.vcxproj -> D:\ProjectSocket\Lab-Summer-Project-Practice\Server\x64\Release\Server.exe
+  Server.vcxproj -> D:\ProjectSocket\Lab-Summer-Project-Practice\Server\x64\Release\Server.pdb (Full PDB)
+>>>>>>> bb52953ad500512651d8b3ff447bf37b6457101c

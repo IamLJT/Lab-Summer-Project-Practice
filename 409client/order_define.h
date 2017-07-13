@@ -1,6 +1,10 @@
 #ifndef ORDER_DEFINE_H
 #define ORDER_DEFINE_H
 
+#if _MSC_VER >= 1600
+#pragma execution_character_set("utf-8")
+#endif
+
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <WinSock2.h>

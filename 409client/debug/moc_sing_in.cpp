@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'sing_in.h'
 **
-** Created by: The Qt Meta Object Compiler version 67 (Qt 5.9.0)
+** Created by: The Qt Meta Object Compiler version 67 (Qt 5.8.0)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
@@ -12,7 +12,7 @@
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'sing_in.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 67
-#error "This file was generated using the moc from 5.9.0. It"
+#error "This file was generated using the moc from 5.8.0. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
@@ -82,7 +82,7 @@ void sing_in::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, voi
 
 const QMetaObject sing_in::staticMetaObject = {
     { &QDialog::staticMetaObject, qt_meta_stringdata_sing_in.data,
-      qt_meta_data_sing_in,  qt_static_metacall, nullptr, nullptr}
+      qt_meta_data_sing_in,  qt_static_metacall, Q_NULLPTR, Q_NULLPTR}
 };
 
 
@@ -93,7 +93,7 @@ const QMetaObject *sing_in::metaObject() const
 
 void *sing_in::qt_metacast(const char *_clname)
 {
-    if (!_clname) return nullptr;
+    if (!_clname) return Q_NULLPTR;
     if (!strcmp(_clname, qt_meta_stringdata_sing_in.stringdata0))
         return static_cast<void*>(const_cast< sing_in*>(this));
     return QDialog::qt_metacast(_clname);
