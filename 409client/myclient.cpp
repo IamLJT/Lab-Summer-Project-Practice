@@ -62,7 +62,7 @@ void MyClient::GetFromServer(int order_type) {
     // 放入查询命令
     QJsonObject send_jsonobj;
     send_jsonobj.insert("order_type", order_type);
-    send_jsonobj.insert("user", User_name.toUtf8().data());
+    send_jsonobj.insert("user", User_name);
     switch(order_type) {
     case QUERYTB_ORDER:
         TableList.clear();
@@ -93,8 +93,9 @@ void MyClient::GetFromServer(int order_type) {
     else if (XYCONTENT_QUERY == QueryOrder)
         QueryData.resize(2);
     QString order_str = QString(QJsonDocument(send_jsonobj).toJson());
-    const char* sendBuf = order_str.toLatin1().data();
-    int sendLen = order_str.length()+1;
+    const char* sendBuf = order_str.toLocal8Bit().data();
+    int sendLen = 2 * order_str.length()+1;
+    qDebug() << sendBuf;
     // 发送命令
     ::sendto(ClientSocket, sendBuf, sendLen, 0, (SOCKADDR*)&RecvAddr, sizeof(SOCKADDR));
     // 接收数据
@@ -190,7 +191,7 @@ void MyClient::GetFromServer(int order_type) {
                     tempx = "";
                     tempy = "";
                     order_str = QString(QJsonDocument(send_jsonobj).toJson());
-                    sendBuf = order_str.toUtf8().data();
+                    sendBuf = order_str.toLatin1().data();
                     sendLen = order_str.length()+1;
                     // 发送命令
                     ::sendto(ClientSocket, sendBuf, sendLen, 0, (SOCKADDR*)&RecvAddr, sizeof(SOCKADDR));
@@ -203,7 +204,7 @@ void MyClient::GetFromServer(int order_type) {
                 send_jsonobj.insert("x", tempx);
                 send_jsonobj.insert("y", tempy);
                 order_str = QString(QJsonDocument(send_jsonobj).toJson());
-                sendBuf = order_str.toUtf8().data();
+                sendBuf = order_str.toLatin1().data();
                 sendLen = order_str.length()+1;
                 ::sendto(ClientSocket, sendBuf, sendLen, 0, (SOCKADDR*)&RecvAddr, sizeof(SOCKADDR));
                 qDebug() << "正在发送..." << "len: " << count << " type: " << send_jsonobj["order_type"].toInt();
@@ -212,7 +213,7 @@ void MyClient::GetFromServer(int order_type) {
             send_jsonobj.remove("y");
             send_jsonobj["order_type"] = EXITINTB_DATA;
             order_str = QString(QJsonDocument(send_jsonobj).toJson());
-            sendBuf = order_str.toUtf8().data();
+            sendBuf = order_str.toLatin1().data();
             sendLen = order_str.length()+1;
             ::sendto(ClientSocket, sendBuf, sendLen, 0, (SOCKADDR*)&RecvAddr, sizeof(SOCKADDR));
             qDebug() << "结束传输!" << send_jsonobj;

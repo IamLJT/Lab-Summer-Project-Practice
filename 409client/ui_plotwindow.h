@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'plotwindow.ui'
 **
-** Created by: Qt User Interface Compiler version 5.9.0
+** Created by: Qt User Interface Compiler version 5.8.0
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -18,8 +18,8 @@
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QStatusBar>
-#include <QtWidgets/QToolButton>
 #include <QtWidgets/QWidget>
+#include "qcustomplot.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -27,10 +27,8 @@ class Ui_PlotWindow
 {
 public:
     QWidget *centralwidget;
-    QPushButton *pushButton;
-    QWidget *widget;
+    QCustomPlot *customPlot;
     QPushButton *pushButton_2;
-    QToolButton *toolButton;
     QMenuBar *menubar;
     QStatusBar *statusbar;
 
@@ -41,18 +39,12 @@ public:
         PlotWindow->resize(500, 400);
         centralwidget = new QWidget(PlotWindow);
         centralwidget->setObjectName(QStringLiteral("centralwidget"));
-        pushButton = new QPushButton(centralwidget);
-        pushButton->setObjectName(QStringLiteral("pushButton"));
-        pushButton->setGeometry(QRect(390, 80, 75, 23));
-        widget = new QWidget(centralwidget);
-        widget->setObjectName(QStringLiteral("widget"));
-        widget->setGeometry(QRect(100, 90, 181, 121));
+        customPlot = new QCustomPlot(centralwidget);
+        customPlot->setObjectName(QStringLiteral("customPlot"));
+        customPlot->setGeometry(QRect(20, 40, 371, 281));
         pushButton_2 = new QPushButton(centralwidget);
         pushButton_2->setObjectName(QStringLiteral("pushButton_2"));
-        pushButton_2->setGeometry(QRect(400, 160, 75, 23));
-        toolButton = new QToolButton(centralwidget);
-        toolButton->setObjectName(QStringLiteral("toolButton"));
-        toolButton->setGeometry(QRect(410, 230, 41, 21));
+        pushButton_2->setGeometry(QRect(400, 40, 75, 23));
         PlotWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(PlotWindow);
         menubar->setObjectName(QStringLiteral("menubar"));
@@ -70,9 +62,7 @@ public:
     void retranslateUi(QMainWindow *PlotWindow)
     {
         PlotWindow->setWindowTitle(QApplication::translate("PlotWindow", "MainWindow", Q_NULLPTR));
-        pushButton->setText(QApplication::translate("PlotWindow", "PushButton", Q_NULLPTR));
         pushButton_2->setText(QApplication::translate("PlotWindow", "PushButton", Q_NULLPTR));
-        toolButton->setText(QApplication::translate("PlotWindow", "...", Q_NULLPTR));
     } // retranslateUi
 
 };
