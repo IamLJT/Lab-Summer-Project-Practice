@@ -24,7 +24,8 @@ void MySocket::InitSocket() {
 	//初始化 DLL
 	WSAStartup(MAKEWORD(2, 2), &wsaData);
 	//创建套接字
-	servSock = socket(AF_INET, SOCK_DGRAM, 0);
+	//servSock = socket(AF_INET, SOCK_DGRAM, 0);//基于UDP协议
+	servSock = socket(AF_INET,SOCK_STREAM,0);	//基于TCP协议
 	nSize = sizeof(SOCKADDR);
 	//绑定套接字
 	memset(&sockAddr, 0, sizeof(sockAddr));		// 每个字节都用0填充
@@ -42,6 +43,22 @@ void MySocket::InitSocket() {
 
 //向客户端发送数据
 void MySocket::ListenClient() {
+
+	int len = sizeof(SOCKADDR);
+	//将套接字设为监听模式，准备接受客户请求
+	listen(servSock, 5);	//设置可接受连接请求的最大个数为5
+
+	//创建一个SOCKADDR变量用来存储客户端的IP地址，端口信息
+	SOCKADDR_IN clientAddr;
+
+	/*先等待客户端发起连接请求
+	listen（）函数不会发生阻塞，（即使接收不到链接请求也不会一直等待）故可以放在循环中
+	accept返回一个新套接字用来与客户端通信（serverSocket-旧套接字仍用于监听客户端的链接请求）
+	如果服务器没有接收到一个来自客户端的连接请求，就会陷入阻塞（一直在改句等待）
+	*/
+	SOCKET sockConnect = accept(servSock, (SOCKADDR*)&clientAddr, &len);
+
+	//注意客户端与服务器连接上后，后面的发送接收都要使用accept（）返回的新套接字sockConnect
 	int insertflag = -1;
 	const int maxlen = 10000;
 	const int maxbyte = 128 * 1024;
@@ -61,11 +78,11 @@ void MySocket::ListenClient() {
 	while (1) {
 		datasend.clear();
 		char recvBuf[maxbyte] = { 0 };
-		recvfrom(servSock, recvBuf, maxbyte, 0, (SOCKADDR*)&sockAddr, &nSize);
-		string str = recvBuf;
-		//str = GBKToUTF8(str);
-		//cout << recvBuf << endl;
-		
+		//基于UDP协议的接受函数
+		//recvfrom(servSocket, recvBuf, maxbyte, 0, (SOCKADDR*)&sockAddr, &nSize);
+
+		//基于TCP的接受函数
+		recv(sockConnect, recvBuf, maxbyte, 0);
 		//cout << recvBuf << endl;
 		int order_list = -1;
 		Json::Value val;
@@ -74,9 +91,8 @@ void MySocket::ListenClient() {
 		if (reader.parse(recvBuf, val)) {
 			order_list = val["order_type"].asInt();
 		}
-		//cout << val << endl;
-		//cout << val["user"].asString();
-		Sql_data->SetUserName(val["user"].asString());
+		cout << val["user"].asCString();
+		Sql_data->SetUserName(val["user"].toStyledString());
 		vector<string> res;
 		// 查询数据库
 		if (order_list == QUERYDB_ORDER) {
@@ -85,9 +101,13 @@ void MySocket::ListenClient() {
 			for each (string var in res) {
 				datasend["database"] = var;
 				datasend_str = datasend.toStyledString();
-				//cout << datasend_str << endl;
-				sendto(servSock, datasend_str.c_str(), datasend_str.length() + 1, \
+				cout << datasend_str << endl;
+				//基于UDP协议的发送函数
+				//sendto(servSocket, datasend_str.c_str(), datasend_str.length() + 1, \
 					0, (SOCKADDR*)&sockAddr, nSize);
+				//基于TCP协议的发送函数
+				send(sockConnect, datasend_str.c_str(), datasend_str.length() + 1, 0);
+
 			}
 		}
 		// 查询表
@@ -99,34 +119,43 @@ void MySocket::ListenClient() {
 			for each (string var in res) {
 				datasend["table"] = var;
 				datasend_str = datasend.toStyledString();
-				sendto(servSock, datasend_str.c_str(), datasend_str.length() + 1, \
+				//UDP
+				//sendto(servSock, datasend_str.c_str(), datasend_str.length() + 1, \
 					0, (SOCKADDR*)&sockAddr, nSize);
+				//TCP
+				send(sockConnect, datasend_str.c_str(), datasend_str.length() + 1, 0);
 			}
 		}
 		// 创建数据库
 		else if (order_list == CREATEDB_ORDER) {
 			datasend["order_type"] = RETURNDB_DATA;
 			string dbname = val["db_name"].asString();
-			//cout << dbname << endl;
 			Sql_data->SetDataBaseName(dbname);
 			int flag = Sql_data->CreateDataBase();
 			datasend["value"] = flag;
 			datasend_str = datasend.toStyledString();
-			sendto(servSock, datasend_str.c_str(), datasend_str.size() + 1, \
+			//UDP
+			//sendto(servSock, datasend_str.c_str(), datasend_str.length() + 1, \
 				0, (SOCKADDR*)&sockAddr, nSize);
+			//TCP
+			send(sockConnect, datasend_str.c_str(), datasend_str.length() + 1, 0);
 		}
 		// 创建表
 		else if (order_list == CREATETB_ORDER) {
 			datasend["order_type"] = RETURNTB_DATA;
 			string dbname = val["db_name"].asString();
 			string tbname = val["tb_name"].asString();
+			cout << tbname << endl;
 			Sql_data->SetDataBaseName(dbname);
 			Sql_data->SetTableName(tbname);
 			int flag = Sql_data->CreateTable();
 			datasend["value"] = flag;
 			datasend_str = datasend.toStyledString();
-			sendto(servSock, datasend_str.c_str(), datasend_str.size() + 1, \
+			//UDP
+			//sendto(servSock, datasend_str.c_str(), datasend_str.length() + 1, \
 				0, (SOCKADDR*)&sockAddr, nSize);
+			//TCP
+			send(sockConnect, datasend_str.c_str(), datasend_str.length() + 1, 0);
 		}
 		// 删除数据库
 		else if (order_list == DELETEDB_ORDER) {
@@ -136,8 +165,11 @@ void MySocket::ListenClient() {
 			int flag = Sql_data->DeleteDataBase();
 			datasend["value"] = flag;
 			datasend_str = datasend.toStyledString();
-			sendto(servSock, datasend_str.c_str(), datasend_str.size() + 1, \
+			//UDP
+			//sendto(servSock, datasend_str.c_str(), datasend_str.length() + 1, \
 				0, (SOCKADDR*)&sockAddr, nSize);
+			//TCP
+			send(sockConnect, datasend_str.c_str(), datasend_str.length() + 1, 0);
 		}
 		// 删除表
 		else if (order_list == DELETETB_ORDER) {
@@ -149,16 +181,22 @@ void MySocket::ListenClient() {
 			int flag = Sql_data->DeleteTable();
 			datasend["value"] = flag;
 			datasend_str = datasend.toStyledString();
-			sendto(servSock, datasend_str.c_str(), datasend_str.size() + 1, \
+			//UDP
+			//sendto(servSock, datasend_str.c_str(), datasend_str.length() + 1, \
 				0, (SOCKADDR*)&sockAddr, nSize);
+			//TCP
+			send(sockConnect, datasend_str.c_str(), datasend_str.length() + 1, 0);
 		}
 		// 插入数据
 		else if (order_list == INSERTTB_ORDER) {
 			//cout << recvBuf << endl;
 			datasend["order_type"] = INSERTTB_DATA;
 			datasend_str = datasend.toStyledString();
-			sendto(servSock, datasend_str.c_str(), datasend_str.size() + 1, \
+			//UDP
+			//sendto(servSock, datasend_str.c_str(), datasend_str.length() + 1, \
 				0, (SOCKADDR*)&sockAddr, nSize);
+			//TCP
+			send(sockConnect, datasend_str.c_str(), datasend_str.length() + 1, 0);
 
 			datasend.clear();
 			string dbname = val["db_name"].asString();
@@ -175,8 +213,11 @@ void MySocket::ListenClient() {
 				memset(recvBuf, 0, maxbyte);
 				order_list = -1;
 				val.clear();
-				
-				recvfrom(servSock, recvBuf, maxbyte, 0, (SOCKADDR*)&sockAddr, &nSize);
+				//UDP
+				//recvfrom(servSock, recvBuf, maxbyte, 0, (SOCKADDR*)&sockAddr, &nSize);
+				//TCP
+				recv(sockConnect,recvBuf,maxbyte,0);
+
 				if (reader.parse(recvBuf, val)) {
 					order_list = val["order_type"].asInt();
 				}
@@ -212,8 +253,11 @@ void MySocket::ListenClient() {
 					datasend["value"] = flag0;
 					datasend_str = datasend.toStyledString();
 					cout << "插入结束" << endl;
-					sendto(servSock, datasend_str.c_str(), datasend_str.size() + 1, \
+					//UDP
+					//sendto(servSock, datasend_str.c_str(), datasend_str.length() + 1, \
 						0, (SOCKADDR*)&sockAddr, nSize);
+					//TCP
+					send(sockConnect, datasend_str.c_str(), datasend_str.length() + 1, 0);
 					break;
 				}
 			}
@@ -238,8 +282,12 @@ void MySocket::ListenClient() {
 						datasend["table_name"] = temp;
 						temp = "";
 						datasend_str = datasend.toStyledString();
-						sendto(servSock, datasend_str.c_str(), datasend_str.size() + 1, \
+						//UDP
+						//sendto(servSock, datasend_str.c_str(), datasend_str.length() + 1, \
 							0, (SOCKADDR*)&sockAddr, nSize);
+
+						//TCP
+						send(sockConnect, datasend_str.c_str(), datasend_str.length() + 1, 0);
 					}
 					else if (count < len){
 						temp += " ";
@@ -249,8 +297,11 @@ void MySocket::ListenClient() {
 					datasend["table_name"] = temp;
 					datasend_str = datasend.toStyledString();
 					//cout << datasend_str << endl;
-					sendto(servSock, datasend_str.c_str(), datasend_str.size() + 1, \
+					//UDP
+					//sendto(servSock, datasend_str.c_str(), datasend_str.length() + 1, \
 						0, (SOCKADDR*)&sockAddr, nSize);
+					//TCP
+					send(sockConnect, datasend_str.c_str(), datasend_str.length() + 1, 0);
 				}
 			}
 			else if (USERNAME_QUERY == content) {
@@ -264,8 +315,11 @@ void MySocket::ListenClient() {
 						temp = "";
 						datasend_str = datasend.toStyledString();
 						cout << datasend_str << endl;
-						sendto(servSock, datasend_str.c_str(), datasend_str.size() + 1, \
+						//UDP
+						//sendto(servSock, datasend_str.c_str(), datasend_str.length() + 1, \
 							0, (SOCKADDR*)&sockAddr, nSize);
+						//TCP
+						send(sockConnect, datasend_str.c_str(), datasend_str.length() + 1, 0);
 					}
 					else if (count < len) {
 						temp += " ";
@@ -275,8 +329,11 @@ void MySocket::ListenClient() {
 					datasend["user_name"] = temp;
 					datasend_str = datasend.toStyledString();
 					//cout << datasend_str << endl;
-					sendto(servSock, datasend_str.c_str(), datasend_str.size() + 1, \
+					//UDP
+					//sendto(servSock, datasend_str.c_str(), datasend_str.length() + 1, \
 						0, (SOCKADDR*)&sockAddr, nSize);
+					//TCP
+					send(sockConnect, datasend_str.c_str(), datasend_str.length() + 1, 0);
 				}
 			}
 			else if (XYCONTENT_QUERY == content) {
@@ -294,8 +351,11 @@ void MySocket::ListenClient() {
 						tempy = "";
 						datasend_str = datasend.toStyledString();
 						cout << datasend_str << endl;
-						sendto(servSock, datasend_str.c_str(), datasend_str.size() + 1, \
+						//UDP
+						//sendto(servSock, datasend_str.c_str(), datasend_str.length() + 1, \
 							0, (SOCKADDR*)&sockAddr, nSize);
+						//TCP
+						send(sockConnect, datasend_str.c_str(), datasend_str.length() + 1, 0);
 					}
 					else if (count < len)
 						tempx += " ", tempy += " ";
@@ -305,14 +365,20 @@ void MySocket::ListenClient() {
 					datasend["y"] = tempy;
 					datasend_str = datasend.toStyledString();
 					//cout << datasend_str << endl;
-					sendto(servSock, datasend_str.c_str(), datasend_str.size() + 1, \
+					//UDP
+					//sendto(servSock, datasend_str.c_str(), datasend_str.length() + 1, \
 						0, (SOCKADDR*)&sockAddr, nSize);
+					//TCP
+					send(sockConnect, datasend_str.c_str(), datasend_str.length() + 1, 0);
 				}
 			}
 			cout << "查询成功！" << endl;
 		}
-		sendto(servSock, stopsend_str.c_str(), stopsend_str.size() + 1, \
+		//UCP
+		//sendto(servSock, stopsend_str.c_str(), stopsend_str.length() + 1, \
 			0, (SOCKADDR*)&sockAddr, nSize);
+		//TCP
+		send(sockConnect, datasend_str.c_str(), datasend_str.length() + 1, 0);
 	}/**/
 }
 
@@ -331,61 +397,4 @@ void SplitString(const string& s, vector<string>& v, const string& c)
 	}
 	if (pos1 != s.length())
 		v.push_back(s.substr(pos1));
-}
-
-//GBK编码转换到UTF8编码
-int GBKToUTF8(unsigned char * lpGBKStr, unsigned char * lpUTF8Str, int nUTF8StrLen)
-{
-	wchar_t * lpUnicodeStr = NULL;
-	int nRetLen = 0;
-
-	if (!lpGBKStr)  //如果GBK字符串为NULL则出错退出
-		return 0;
-
-	nRetLen = ::MultiByteToWideChar(CP_ACP, 0, (char *)lpGBKStr, -1, NULL, NULL);  //获取转换到Unicode编码后所需要的字符空间长度
-	lpUnicodeStr = new WCHAR[nRetLen + 1];  //为Unicode字符串空间
-	nRetLen = ::MultiByteToWideChar(CP_ACP, 0, (char *)lpGBKStr, -1, lpUnicodeStr, nRetLen);  //转换到Unicode编码
-	if (!nRetLen)  //转换失败则出错退出
-		return 0;
-
-	nRetLen = ::WideCharToMultiByte(CP_UTF8, 0, lpUnicodeStr, -1, NULL, 0, NULL, NULL);  //获取转换到UTF8编码后所需要的字符空间长度
-
-	if (!lpUTF8Str)  //输出缓冲区为空则返回转换后需要的空间大小
-	{
-		if (lpUnicodeStr)
-			delete[]lpUnicodeStr;
-		return nRetLen;
-	}
-
-	if (nUTF8StrLen < nRetLen)  //如果输出缓冲区长度不够则退出
-	{
-		if (lpUnicodeStr)
-			delete[]lpUnicodeStr;
-		return 0;
-	}
-
-	nRetLen = ::WideCharToMultiByte(CP_UTF8, 0, lpUnicodeStr, -1, (char *)lpUTF8Str, nUTF8StrLen, NULL, NULL);  //转换到UTF8编码
-
-	if (lpUnicodeStr)
-		delete[]lpUnicodeStr;
-
-	return nRetLen;
-}
-
-string GBKToUTF8(const std::string& strGBK)
-{
-	string strOutUTF8 = "";
-	WCHAR * str1;
-	int n = MultiByteToWideChar(CP_ACP, 0, strGBK.c_str(), -1, NULL, 0);
-	str1 = new WCHAR[n];
-	MultiByteToWideChar(CP_ACP, 0, strGBK.c_str(), -1, str1, n); 
-	n = WideCharToMultiByte(CP_UTF8, 0, str1, -1, NULL, 0, NULL, NULL);
-	char * str2 = new char[n];
-	WideCharToMultiByte(CP_UTF8, 0, str1, -1, str2, n, NULL, NULL);
-	strOutUTF8 = str2;
-	delete[]str1;
-	str1 = NULL;
-	delete[]str2;
-	str2 = NULL;
-	return strOutUTF8;
 }

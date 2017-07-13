@@ -1,3 +1,17 @@
+<<<<<<< HEAD
+﻿  json_reader.cpp
+..\json\json_reader.cpp(7): fatal error C1083: 无法打开包括文件: “json/reader.h”: No such file or directory
+  json_value.cpp
+..\json\json_value.cpp(7): fatal error C1083: 无法打开包括文件: “json/value.h”: No such file or directory
+  json_writer.cpp
+..\json\json_writer.cpp(7): fatal error C1083: 无法打开包括文件: “json/writer.h”: No such file or directory
+  MySocket.cpp
+e:\github\lab-summer-project-practice\server\src\My_MySQL.h(2): fatal error C1083: 无法打开包括文件: “mysql.h”: No such file or directory
+  My_MySQL.cpp
+e:\github\lab-summer-project-practice\server\src\My_MySQL.h(2): fatal error C1083: 无法打开包括文件: “mysql.h”: No such file or directory
+  server.cpp
+e:\github\lab-summer-project-practice\server\src\My_MySQL.h(2): fatal error C1083: 无法打开包括文件: “mysql.h”: No such file or directory
+=======
 ﻿  My_MySQL.cpp
 ..\src\My_MySQL.cpp(61): warning C4267: “参数”: 从“size_t”转换到“unsigned long”，可能丢失数据
 ..\src\My_MySQL.cpp(98): warning C4267: “参数”: 从“size_t”转换到“unsigned long”，可能丢失数据
@@ -22,3 +36,4 @@
   已完成代码的生成
   Server.vcxproj -> D:\ProjectSocket\Lab-Summer-Project-Practice\Server\x64\Release\Server.exe
   Server.vcxproj -> D:\ProjectSocket\Lab-Summer-Project-Practice\Server\x64\Release\Server.pdb (Full PDB)
+>>>>>>> bb52953ad500512651d8b3ff447bf37b6457101c
