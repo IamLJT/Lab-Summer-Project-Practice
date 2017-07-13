@@ -1,6 +1,7 @@
 #pragma once
 
 #include <winsock2.h>
+#include <string>
 #include "My_MySQL.h"
 #include "order_define.h"
 #include "json/json.h"
@@ -41,3 +42,5 @@ private:
 
 // ÇÐ¸î×Ö·û´®
 void SplitString(const string& s, vector<string>& v, const string& c);
+int GBKToUTF8(unsigned char * lpGBKStr, unsigned char * lpUTF8Str, int nUTF8StrLen);
+string GBKToUTF8(const std::string& strGBK);

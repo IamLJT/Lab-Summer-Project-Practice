@@ -27,6 +27,11 @@ download::download(QWidget *parent) :
     MyClient *db = new MyClient();
     db->GetDataBaseListFromServer();
     QStringList DbList = db->GetDataBaseList();
+//    db->SetDbName("刘");
+//    db->SetTbName("数据");
+//    db->SetUserName("刘鉴霆");
+//    db->CreateDataBase();
+//    db->CreateTable();
     delete db;
     //初始化comboBox
     DbList<<"New DataBases";
@@ -159,7 +164,7 @@ void download::on_pushButton_5_clicked()
 void download::on_pushButton_clicked()
 {
     MyClient *db = new MyClient();
-    db->SetDbName(ui->comboBox->currentText().toLocal8Bit());
+    db->SetDbName(ui->comboBox->currentText());
     db->CreateDataBase();
     if(current_user==""){     //设置用户名
         db->SetUserName("visitor");

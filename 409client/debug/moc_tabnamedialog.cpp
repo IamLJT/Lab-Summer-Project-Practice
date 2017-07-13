@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'tabnamedialog.h'
 **
-** Created by: The Qt Meta Object Compiler version 67 (Qt 5.9.0)
+** Created by: The Qt Meta Object Compiler version 67 (Qt 5.8.0)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
@@ -12,7 +12,7 @@
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'tabnamedialog.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 67
-#error "This file was generated using the moc from 5.9.0. It"
+#error "This file was generated using the moc from 5.8.0. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
@@ -82,7 +82,7 @@ void tabNameDialog::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _i
 
 const QMetaObject tabNameDialog::staticMetaObject = {
     { &QDialog::staticMetaObject, qt_meta_stringdata_tabNameDialog.data,
-      qt_meta_data_tabNameDialog,  qt_static_metacall, nullptr, nullptr}
+      qt_meta_data_tabNameDialog,  qt_static_metacall, Q_NULLPTR, Q_NULLPTR}
 };
 
 
@@ -93,7 +93,7 @@ const QMetaObject *tabNameDialog::metaObject() const
 
 void *tabNameDialog::qt_metacast(const char *_clname)
 {
-    if (!_clname) return nullptr;
+    if (!_clname) return Q_NULLPTR;
     if (!strcmp(_clname, qt_meta_stringdata_tabNameDialog.stringdata0))
         return static_cast<void*>(const_cast< tabNameDialog*>(this));
     return QDialog::qt_metacast(_clname);
