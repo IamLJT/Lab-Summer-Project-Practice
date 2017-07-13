@@ -15,19 +15,19 @@
 #define QUERY_ORDER		11  //  查询
 
 //  返回数据类型
-#define DATABASE_DATA   1   //  数据库名列表
-#define TABLE_DATA      2   //  表名列表
+#define DATABASE_DATA   101   //  数据库名列表
+#define TABLE_DATA      102   //  表名列表
 
-#define RETURNTB_DATA	3   //  新建数据库返回
-#define RETURNDB_DATA	4   //  新建表返回
-#define DELETEDB_DATA	5   //  删除数据库返回
-#define DELETETB_DATA	6   //  删除表返回
-#define INSERTTB_DATA	7   //  插入内容标记
-#define RINSRTTB_DATA   8   //  插入内容返回
-#define EXITINTB_DATA	9   //  结束插入标记
-#define QUERY_DATA		10  //  查询返回
+#define RETURNTB_DATA	103   //  新建数据库返回
+#define RETURNDB_DATA	104   //  新建表返回
+#define DELETEDB_DATA	105   //  删除数据库返回
+#define DELETETB_DATA	106   //  删除表返回
+#define INSERTTB_DATA	107   //  插入内容标记
+#define RINSRTTB_DATA   108   //  插入内容返回
+#define EXITINTB_DATA	109   //  结束插入标记
+#define QUERY_DATA		110  //  查询返回
 
-#define EXIT_DATA       20  //  结束返回
+#define EXIT_DATA       120  //  结束返回
 
 //  返回值
 #define EXISTDB_VALUE	0   //  数据库已存在

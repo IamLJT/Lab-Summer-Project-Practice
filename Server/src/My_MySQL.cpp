@@ -117,12 +117,10 @@ int My_MySQL::CreateTable() {
 	mysql_real_connect(&mydata, hostname.c_str(), root.c_str(), \
 		passwd.c_str(), databasename.c_str(), port, NULL, 0);
 
-	string query_sql = "SELECT TABLE_NAME FROM ";
-	query_sql += "INFORMATION_SCHEMA.TABLES ";
-	query_sql += "WHERE TABLE_SCHEMA='";
-	query_sql += databasename;
-	query_sql += "' AND TABLE_NAME='";
-	query_sql += tablename+"'";
+	string query_sql = "SELECT TABLE_NAME FROM TABLES ";
+	query_sql += "WHERE TABLE_NAME='";
+	query_sql += tablename + "' AND USER='";
+	query_sql += username + "'";
 	// ≈–∂œ±Ì «∑Ò¥Ê‘⁄
 	mysql_real_query(&mydata, query_sql.c_str(), query_sql.size());
 	if (0 != mysql_num_rows(mysql_store_result(&mydata))) {

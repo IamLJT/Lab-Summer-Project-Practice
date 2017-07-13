@@ -12,7 +12,14 @@ int main() {
 	mysocket->InitSocket();
 	mysocket->ListenClient();
 
+	/*char *uu = "{\n\"name\":\"Áõ¼øöª\"}";
+	Json::Value val;
+	Json::Reader reader;
+	reader.parse(uu, val);
+	cout << val["name"].asString() << endl;*/
+
 	delete mysocket;
 	
+	system("pause");
 	return 0;
 }
