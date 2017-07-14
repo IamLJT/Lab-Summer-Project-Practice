@@ -1,0 +1,592 @@
+<!doctype html>
+<html>
+<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+<script language="javascript">
+function show_cur_times(){
+	
+//获取当前日期
+ var date_time = new Date();
+ //定义星期
+ var week;
+ //switch判断
+ switch (date_time.getDay()){
+case 1: week="星期一"; break;
+case 2: week="星期二"; break;
+case 3: week="星期三"; break;
+case 4: week="星期四"; break;
+case 5: week="星期五"; break;
+case 6: week="星期六"; break;
+default:week="星期天"; break;
+ }
+ 
+ //年
+ var year = date_time.getFullYear();
+  //判断小于10，前面补0
+   if(year<10){
+  year="0"+year;
+ }
+ 
+ //月
+ var month = date_time.getMonth()+1;
+  //判断小于10，前面补0
+  if(month<10){
+month="0"+month;
+ }
+ 
+ //日
+ var day = date_time.getDate();
+  //判断小于10，前面补0
+   if(day<10){
+  day="0"+day;
+ }
+ 
+ //时
+ var hours =date_time.getHours();
+  //判断小于10，前面补0
+    if(hours<10){
+  hours="0"+hours;
+ }
+ 
+ //分
+ var minutes =date_time.getMinutes();
+  //判断小于10，前面补0
+    if(minutes<10){
+  minutes="0"+minutes;
+ }
+ 
+ //秒
+ var seconds=date_time.getSeconds();
+  //判断小于10，前面补0
+    if(seconds<10){
+  seconds="0"+seconds;
+ }
+ 
+ //拼接年月日时分秒
+ var date_str = "当前时间："+year+"年"+month+"月"+day+"日 "+hours+":"+minutes+":"+seconds+" "+week;
+ 
+ //显示在id为showtimes的容器里
+ document.getElementById("dateStr").innerHTML=date_str;
+ 
+ //设置1秒调用一次show_cur_times函数
+setTimeout("show_cur_times()",100);
+}
+/*显示登录信息*/
+
+function showMessages(){
+var s=null;
+var record1=null;
+var record2=null;
+now =new Date();
+hour = now.getHours();
+if(hour<6)
+s="亲爱的小伙伴，凌晨好！";
+else if(hour <9)
+s="亲爱的小伙伴，早上好！";
+else if(hour <12)
+s="亲爱的小伙伴，上午好！";
+else if(hour<14)
+s="亲爱的小伙伴，中午好！";
+else if(hour <17)
+s="亲爱的小伙伴，下午好！";
+else if(hour<19)
+s="亲爱的小伙伴，傍晚好！";
+else if(hour<22)
+s="亲爱的小伙伴，晚上好！";
+else
+s="亲爱的小伙伴，夜里好！该休息了！";
+s=s+"<br/>";
+document.write(s);
+if(localStorage.pagecount)
+	localStorage.pagecount=Number(localStorage.pagecount)+1;
+else
+	localStorage.pagecount=1;
+record1="总访问人数:&nbsp &nbsp"+localStorage.pagecount;
+document.write(record1);
+if(sessionStorage.pagecount)
+	sessionStorage.pagecount=Number(sessionStorage.pagecount)+1;
+else
+	sessionStorage.pagecount=1;
+	
+	record2="<br/>当前会话内访问数:&nbsp&nbsp"+sessionStorage.pagecount;
+document.write(record2);
+	}
+</script>
+<head>
+<meta charset="utf-8" >
+<title>一个简单的HTML页面</title>
+
+
+<script type="text/javascript">
+$(function(){
+	$(".main-li").hover(function(){
+		$(this).children(".sub-menu").show().prev("a").css({"color":"#fff","text-decoration":"underline"});
+	},function(){
+		$(this).children(".sub-menu").hide().prev("a").css({"color":"#4d4c4c","text-decoration":"none"});
+	});
+	$(".sub-menu .main-li2").hover(function(){
+		$(this).children(".li2-a").css({"background-color":"#981C14","color":"#fff","text-decoration":"underline"});
+		$(this).children(".sub-menu-two").show();
+	},function(){
+		$(this).children(".li2-a").css({"background-color":"#dec3c0","color":"#FF6633","text-decoration":"none"});
+		$(this).children(".sub-menu-two").hide();
+	});
+	
+});
+</script>
+<script>
+//滚动
+(function($){
+
+	$.fn.kxbdMarquee = function(options){
+		var opts = $.extend({},$.fn.kxbdMarquee.defaults, options);
+		
+		return this.each(function(){
+			var $marquee = $(this);//滚动元素容器
+			var _scrollObj = $marquee.get(0);//滚动元素容器DOM
+			var scrollW = $marquee.width();//滚动元素容器的宽度
+			var scrollH = $marquee.height();//滚动元素容器的高度
+			var $element = $marquee.children(); //滚动元素
+			var $kids = $element.children();//滚动子元素
+			var scrollSize=0;//滚动元素尺寸
+			var _type = (opts.direction == 'left' || opts.direction == 'right') ? 1:0;//滚动类型，1左右，0上下
+
+			//防止滚动子元素比滚动元素宽而取不到实际滚动子元素宽度
+			$element.css(_type?'width':'height',10000);
+			//获取滚动元素的尺寸
+			if (opts.isEqual) {
+				scrollSize = $kids[_type?'outerWidth':'outerHeight']() * $kids.length;
+			}else{
+				$kids.each(function(){
+					scrollSize += $(this)[_type?'outerWidth':'outerHeight']();
+				});
+			}
+			//滚动元素总尺寸小于容器尺寸，不滚动
+			if (scrollSize<(_type?scrollW:scrollH)) return; 
+			//克隆滚动子元素将其插入到滚动元素后，并设定滚动元素宽度
+			$element.append($kids.clone()).css(_type?'width':'height',scrollSize*2);
+			
+			var numMoved = 0;
+			function scrollFunc(){
+				var _dir = (opts.direction == 'left' || opts.direction == 'right') ? 'scrollLeft':'scrollTop';
+				if (opts.loop > 0) {
+					numMoved+=opts.scrollAmount;
+					if(numMoved>scrollSize*opts.loop){
+						_scrollObj[_dir] = 0;
+						return clearInterval(moveId);
+					} 
+				}
+				if(opts.direction == 'left' || opts.direction == 'up'){
+					var newPos = _scrollObj[_dir] + opts.scrollAmount;
+					if(newPos>=scrollSize){
+						newPos -= scrollSize;
+					}
+					_scrollObj[_dir] = newPos;
+				}else{
+					var newPos = _scrollObj[_dir] - opts.scrollAmount;
+					if(newPos<=0){
+						newPos += scrollSize;
+					}
+					_scrollObj[_dir] = newPos;
+				}
+			};
+			//滚动开始
+			var moveId = setInterval(scrollFunc, opts.scrollDelay);
+			//鼠标划过停止滚动
+			$marquee.hover(
+				function(){
+					clearInterval(moveId);
+				},
+				function(){
+					clearInterval(moveId);
+					moveId = setInterval(scrollFunc, opts.scrollDelay);
+				}
+			);
+			
+			//控制加速运动
+			if(opts.controlBtn){
+				$.each(opts.controlBtn, function(i,val){
+					$(val).bind(opts.eventA,function(){
+						opts.direction = i;
+						opts.oldAmount = opts.scrollAmount;
+						opts.scrollAmount = opts.newAmount;
+					}).bind(opts.eventB,function(){
+						opts.scrollAmount = opts.oldAmount;
+					});
+				});
+			}
+		});
+	};
+	$.fn.kxbdMarquee.defaults = {
+		isEqual:true,//所有滚动的元素长宽是否相等,true,false
+		loop: 0,//循环滚动次数，0时无限
+		direction: 'left',//滚动方向，'left','right','up','down'
+		scrollAmount:1,//步长
+		scrollDelay:15,//时长
+		newAmount:3,//加速滚动的步长
+		eventA:'mousedown',//鼠标事件，加速
+		eventB:'mouseup'//鼠标事件，原速
+	};
+	
+	$.fn.kxbdMarquee.setDefaults = function(settings) {
+		$.extend( $.fn.kxbdMarquee.defaults, settings );
+	};
+	
+})(jQuery);
+
+</script>
+<style>
+.marquee {
+width:100%;
+height:160px;
+overflow:hidden;
+border:9px solid #333;
+margin-top:10px;}
+.marquee li{ display:inline; float:left; margin-right:12px;}
+</style>
+<style type="text/css">
+.menu{
+	line-height:40px;
+	padding-left:60px;
+	height:40px;
+	padding-top:0px;
+	background-color:#ebdcc2;
+	}
+.menu li{
+	font-size:14px;
+	font-weight:bold;
+	text-align:center;
+	float:left;
+    list-style-type:none;
+    width:120px;
+}
+
+.menu a, .meunua:link{ 
+color:#4d4c4c;
+text-decoration:none;
+}
+.main-menu{
+padding:0px;
+width:100%;
+}
+.main-menu .main-li{
+float:left;
+padding:0 3px; 
+height:40px; 
+line-height:40px;
+position:relative;
+z-index:1;
+}
+.main-menu .main-li a{
+display:block; 
+font-weight:bold;
+}
+.main-menu .main-li .li-a{
+float:left;
+width:120px;
+}
+.main-menu .main-li .sub-menu{
+position:absolute; 
+display:none;
+z-index:2; 
+left:0px; 
+width:120px; 
+text-align:center; 
+background-color:#999999;
+}
+.main-menu .main-li .sub-menu-two{
+position:absolute; 
+top:0px; 
+display:none; 
+z-index:3; 
+/*left:120px;*/
+text-align:center;
+}
+.sub-menu-two a{
+width:120px; 
+background-color:#f0ebea;
+float:none;
+}
+.sub-menu .li2-a{
+background-color:#f0ebea;
+float:left;
+width:120px;
+}
+.sub-menu a:hover{
+background-color:#f0ebea;
+}
+.top{
+margin-top:20px;
+
+background-color:#ebdcc2;
+}
+.biaoti{
+
+text-align:center;
+font-size:40px;
+font-family:"Times New Roman",Georgia,Serif;
+}
+.jianjie{
+background-color:#ebdcc2;
+border-style:outset;
+position:absolute;
+left:0px;
+top:280px;
+height:300px;
+width:40%;
+
+
+
+}
+.jieshao{
+position:absolute;
+left:40%;
+top:280px;
+height:300px;
+width:40%;
+background-color:#ebdcc2;
+border-style:inset;
+}
+.title{
+	float:left;
+	width=100%;
+	height:41px;
+	}
+.list{
+	height:243px;
+	border-top:0px;
+	width:100%;
+	float:left;
+	border-right:0px;
+	line-height:30px;
+	list-style-type:none;
+	}
+.list ul{
+	width:100%;
+	float:left;
+	list-style-type:none;
+	}
+.list li{
+	padding-left:0px;
+	float:left;
+	width:100%;
+	}
+.titlea a,.titlea a:visited,.titlea a:link{
+	color:#e65810; 
+	text-decoration:none
+	}
+.titlea a:hover{
+	color:#F00;
+	text-decoration:none
+	}
+
+.lianxi
+{
+position:absolute;
+border :1px solid;
+left:80%;
+top:280px;
+width:20%;
+height:300px;
+background-color:#ebdcc2;
+
+}
+.zhaopian{
+
+position:absolute;
+height:220px;
+top:580px;
+width:100%;
+float:center;
+border:1px solid;
+}
+.t1{
+
+position:absolute;
+left:20px;
+top:0px;
+hight:300px;
+
+}
+.t2{
+position:absolute;
+left:10px;
+top:0px;
+background-color:#ebdcc2;
+}
+#footer{
+  /*设置底部的#footrt对象的样式*/
+	position:absolute;
+	left:0px;
+	top:785px;
+	height:35px;
+	width:100%;
+	clear:both;
+	padding::25px 0;
+	background:#083253;
+}
+#footer p{
+	text-align:center;
+	font-size:14px;
+	color:#0f5b93;
+}
+
+</style>
+</head>
+<body onload="show_cur_times()" >
+<div class="top">
+	<div>
+		<script language="javascript">
+			showMessages();
+		</script>
+	</div>
+	<h1 align=center>Weclome to 409 </h1>
+	<div id="dateStr">
+		<script language="javascript">
+		show_cur_times();
+		</script>
+	</div>
+	
+	
+	
+	
+<hr/>
+</div>
+
+
+
+
+<div class="menu">
+<ul class="main-menu">
+<li><a href="#">网 站 首 页</a></li>
+<li style="width:5px;"><img src="img/xian.jpg"></li>
+<li><a href="http://www.cnki.net/">中 国 知 网</a></li>
+<li style="width:5px;"><img src="img/xian.jpg"></li>
+<li><a href="http://www.hust.edu.cn/">华 科 官 网</a></li>
+<li style="width:5px;"><img src="img/xian.jpg"></li>
+<li><a href="http://www.lib.hust.edu.cn/">华 科 图 书 馆</a></li>
+<li style="width:5px;"><img src="img/xian.jpg"></li>
+<li><a href="http://hub.hust.edu.cn/index.jsp">HUB 系 统</a></li>
+
+<li style="width:5px;"><img src="img/xian.jpg"></li>
+<li class="main-li"><a class="li-a" href="/">测试中心</a>
+			<ul class="sub-menu">
+				<li class="main-li2"><a class="li2-a" href="http://atc.hust.edu.cn/">华科测试中心</a></li>
+				<li class="main-li2"><a class="li2-a" href="http://cmra.whut.edu.cn/">武汉理工测试中心</a></li>
+			</ul>
+		</li>
+<li style="width:5px;"><img src="img/xian.jpg"></li>
+<li class="main-li"><a class="li-a" href="/">登 陆 中 心</a>
+			<ul class="sub-menu">
+				<li class="main-li2"><a class="li2-a" href="login.html">用户登录</a></li>
+				<li class="main-li2"><a class="li2-a" href="admin.html">管理员登陆</a></li>
+			</ul>
+		</li>
+<li style="width:5px;"><img src="img/xian.jpg">
+<li><a href="http://09s8617185.atobo.com.cn/">联系我们</a></li>
+</ul>
+</div>
+
+
+
+
+ <div class="jianjie">
+ <!--实验室简介-->
+<img src="img/maincolor.jpg">
+	<div class="t1">
+	<img src="img/6.jpg">
+		<span>实         验            室            介           绍</span>
+		<marquee scrollamount="3" onMouseOver="stop()" onMouseOut="start()" direction="up">
+  实验室负责人为王老师，主要研究方向为传感材料与光电检测技术，一直从事氧化物探测材料以及微光机电（MOEMS）传感器件与光电检测技术方面的研究。在薄膜器件、阵列器件以及光电检测技术等方面做了较多的研究。在华中科技大学任教期间，作为主要研究者参加了“非制冷探测器VOx材料的研制”、“非制冷VOx红外焦平面制备工艺研究”、“新型大容量微波开关制备”、“基于图形衬底的高效白光LED外延芯片产业化制备技术研究”等多项国家863项目与国家自然科学基金项目。目前在研的课题以及研究兴趣主要是光学传感-（热光、磁光理论）与探测材料与器件的研究。
+在基础研究课题之外，也承担过多项光电检测技术方面的产学研合作课题，如：“基于红外流量传感技术的人员计数系统”、“基于面积热传输模型的漏钢预报系统”、“低成本温、湿度检测系统”、“红外在线测油仪”等。 
+			</marquee>
+	</div>
+</div>
+
+<!--实验室仪器介绍
+
+-->
+<div class="jieshao">
+<img src="img/maincolor.jpg">
+	<div class="t2">
+		<div class="title">
+			<font style="float:left; padding-top:15px; padding-left:10px; font-size:20px; font-weight:bold; color:#9c6139">实验室消息发布</font>
+			<font class="titlea"style="float:right; padding-left:280px;padding-right:20px;padding-top:20px;font-size:15px;  color:#e65810"><a href="#">更多>></a></font>
+		</div>
+      <div class="list">
+        <ul>
+          <li><font style="float:left"><a href="word/KT2811使用说明书.htm">KT2811使用说明</a></font>
+		  <font style="float:right; padding-right:50px;">2017-07-14 </font></li>
+          <li><font style="float:left"><a href="word/xmt8000温控仪.htm">XMT-8000智能型温度控制仪</a></font>
+		  <font style="float:right; padding-right:50px;">2017-07-14 </font></li>
+          <li><font style="float:left"><a href="word/402药品一览.htm">实验室药品大全</a></font>
+		  <font style="float:right; padding-right:50px;">2017-07-14 </font></li>
+          <li><font style="float:left"><a href="#">实验室仪器大全</a></font>
+		  <font style="float:right; padding-right:50px;">2017-07-14 </font></li>
+          <li><font style="float:left"><a href="#">实验室活动安排</a></font>
+		  <font style="float:right; padding-right:50px;">2017-07-14 </font></li>
+          <li><font style="float:left"><a href="#">实验室学生学习计划</a></font>
+		  <font style="float:right; padding-right:50px;">2017-07-14 </font></li>  
+        </ul>
+      </div>
+	</div>
+</div>
+
+<!--联系信息-->
+<div class="lianxi">
+<p><font style="font-size:20px">&nbsp &nbsp联系地址</font></p>
+<p><font style="font-size:20px">&nbsp&nbsp&nbsp湖北省武汉市洪山区珞喻路</br>
+</br>1037号南五楼</font></p>
+<p style="font-size:20px">&nbsp联系方式：</br></p>
+<p style="font-size:20px">&nbsp &nbsp 13927290805</p>
+</div>
+ <script type="text/javascript">
+$(document).ready(function(){
+	$('.marquee').kxbdMarquee({
+			direction:'left',
+			eventA:'mouseenter',
+			eventB:'mouseleave'
+	});
+});
+</script> 
+
+<!--一些照片的展示-->
+<div class="zhaopian">
+	<center><font style="font-size:20px">我们的故事</font><a href="#">【Enter】</a></center>
+	</hr>
+	<div class="marquee"> 
+    <ul>
+        <li><img src="img/01.jpg" width="200" height="130"/></li>
+        <li><img src="img/02.jpg" width="200" height="130"/></li>
+        <li><img src="img/03.jpg" width="200" height="130"/></li>
+        <li><img src="img/04.jpg" width="200" height="130"/></li>
+		<li><img src="img/001.jpg" width="200" height="130"></li>
+		<li><img src="img/05.jpg" width="200" height="130"/></li>
+        <li><img src="img/06.jpg" width="200" height="130"/></li>
+        <li><img src="img/07.jpg" width="200" height="130"/></li>
+        <li><img src="img/08.jpg" width="200" height="130"/></li>
+        <li><img src="img/09.jpg" width="200" height="130"/></li>
+		
+    
+	</ul>
+</div> 
+	<!--
+	<img src="img/1.jpg" width="300" height="150" >
+	&nbsp;&nbsp;
+	<img src="img/3.jpg" width="300" height="150">
+	&nbsp;&nbsp;
+	<img src="img/4.jpg" width="300" height="150">
+	&nbsp;&nbsp;
+	<img src ="img/5.jpg" width="300" height="150">
+	</hr>
+	-->
+</div>
+<!--
+页脚的展示
+-->
+<div id="footer">
+	<p>南五楼409&copy;2017   All   Rights   Reserved.</p>
+</div>
+
+</body>
+
+</html>
