@@ -6,6 +6,9 @@ creatDb::creatDb(QWidget *parent) :
     ui(new Ui::creatDb)
 {
     ui->setupUi(this);
+    ui->lineEdit->setPlaceholderText("请输入英文数据库名");
+    QRegExp regExp("[A-Za-z0-9]+");
+    ui->lineEdit->setValidator(new QRegExpValidator(regExp,this));
 }
 
 creatDb::~creatDb()

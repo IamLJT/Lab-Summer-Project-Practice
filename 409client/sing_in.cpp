@@ -6,6 +6,7 @@ sing_in::sing_in(QWidget *parent) :
     ui(new Ui::sing_in)
 {
     ui->setupUi(this);
+    ui->name->setPlaceholderText("请输入用户名");
 }
 sing_in::~sing_in()
 {

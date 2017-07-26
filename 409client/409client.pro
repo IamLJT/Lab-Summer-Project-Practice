@@ -29,40 +29,48 @@ CONFIG += precompile_header
 PRECOMPILED_HEADER += order_define.h
 
 SOURCES += \
-        main.cpp        \
-        mainwindow.cpp  \
-        download.cpp    \
-        sing_in.cpp     \
-        find_dialog.cpp \
-    tabnamedialog.cpp \
-    myclient.cpp \
-    creatdb.cpp \
-    qcustomplot.cpp \
-    plotwindow.cpp
+        main.cpp            \
+        mainwindow.cpp      \
+        download.cpp        \
+        sing_in.cpp         \
+        find_dialog.cpp     \
+        tabnamedialog.cpp   \
+        myclient.cpp        \
+        creatdb.cpp         \
+        pubilcfunction.cpp  \
+        plotwindow.cpp      \
+        qcustomplot.cpp
 
 HEADERS += \
-        mainwindow.h    \
-        download.h      \
-        sing_in.h       \
-        find_dialog.h \
-        order_define.h \
-    myclient.h \
-    tabnamedialog.h \
-    creatdb.h \
-    qcustomplot.h \
-    pifu.h \
-    plotwindow.h
+        mainwindow.h        \
+        download.h          \
+        sing_in.h           \
+        find_dialog.h       \
+        order_define.h      \
+        myclient.h          \
+        tabnamedialog.h     \
+        creatdb.h           \
+        pifu.h              \
+        publicfunction.h    \
+        plotwindow.h        \
+        qcustomplot.h
 
 FORMS += \
-        mainwindow.ui   \
-        download.ui     \
-        sing_in.ui      \
-        find_dialog.ui \
-    tabnamedialog.ui \
-    creatdb.ui \
-    plotwindow.ui
+        mainwindow.ui       \
+        download.ui         \
+        sing_in.ui          \
+        find_dialog.ui      \
+        tabnamedialog.ui    \
+        creatdb.ui          \
+        plotwindow.ui
 
 RESOURCES += \
         resource.qrc
 
 LIBS     += -lws2_32
+
+# 加载rc文件
+RC_FILE = myapp.rc
+
+DISTFILES += \
+    myapp.rc

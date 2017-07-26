@@ -2,12 +2,14 @@
 #define FIND_DIALOG_H
 
 #include <QDialog>
-#include<myclient.h>
+#include "myclient.h"
 #include<QSettings>
 #include<QFileDialog>
 #include<QFile>
 #include<QMessageBox>
 #include<QTextStream>
+#include<publicfunction.h>
+#include<QStringList>
 namespace Ui {
 class find_dialog;
 }

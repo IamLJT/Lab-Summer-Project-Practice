@@ -8,6 +8,7 @@
 #include "sing_in.h"
 #include "find_dialog.h"
 #include"pifu.h"
+#include"publicfunction.h"
 namespace Ui {
 class MainWindow;
 }
@@ -18,8 +19,8 @@ class MainWindow : public QMainWindow
 
 public:
     explicit MainWindow(QWidget *parent = 0);
-    void iniWidget(QString user);
-    void flushWidget(QString user);
+    //void iniWidget(QString user);
+    void Flush_Widget(QString user);
 
     ~MainWindow();
 

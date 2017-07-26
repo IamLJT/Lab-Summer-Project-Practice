@@ -6,6 +6,7 @@ tabNameDialog::tabNameDialog(QWidget *parent) :
     ui(new Ui::tabNameDialog)
 {
     ui->setupUi(this);
+    ui->lineEdit->setPlaceholderText("请输入表名");
 }
 
 tabNameDialog::~tabNameDialog()

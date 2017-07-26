@@ -105,7 +105,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>退出登录</string>
+     <string>删除用户</string>
     </property>
    </widget>
    <widget class="QTableWidget" name="tableWidget">

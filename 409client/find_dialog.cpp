@@ -1,6 +1,6 @@
 ﻿#include "find_dialog.h"
 #include "ui_find_dialog.h"
-
+#include<QDebug>
 find_dialog::find_dialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::find_dialog)
@@ -10,22 +10,24 @@ find_dialog::find_dialog(QWidget *parent) :
     MyClient *db = new MyClient();
     db->GetDataBaseListFromServer();
     QStringList DbList = db->GetDataBaseList();
-    delete db;
+
     //初始化comboBox
-    QSettings *shield = new QSettings("config/fileInfo.ini", QSettings::IniFormat);
-    shield->beginGroup("shieldSql");
-    QStringList sql=shield->allKeys();
-    shield->endGroup();
-    delete shield;
+    QVector<QStringList> sql= Section_Read("config/fileInfo.ini","shieldSql");
     foreach (QString tmp, DbList) {
-       int index=sql.indexOf(tmp);
+       int index=sql[0].indexOf(tmp);
        if(index!=-1){
-           DbList.removeOne(sql[index]);
+           DbList.removeOne(tmp);
        }
     }
     ui->comboBox->addItems(DbList);
+    //初始化comboBox1
+    if(!ui->comboBox->currentText().isEmpty()){
+        db->SetDbName(ui->comboBox->currentText());
+        QStringList userlist = db->GetUserNameList();
+        ui->comboBox_2->addItems(userlist);
+    }
+    delete db;
 }
-
 find_dialog::~find_dialog()
 {
     delete ui;
@@ -37,6 +39,9 @@ void find_dialog::on_comboBox_activated(const QString &arg1)
     db->SetDbName(arg1);
     QStringList user=db->QueryDataFromServer(USERNAME_QUERY)[0];
     delete db;
+    foreach (QString tmp, user) {
+        qDebug()<<"数据库用户："<<tmp;
+    }
     ui->comboBox_2->addItems(user);
 }
 //查询按钮槽函数

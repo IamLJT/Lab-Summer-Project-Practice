@@ -1,12 +1,17 @@
 #pragma once
 
 #include <winsock2.h>
+#include <windows.h>
 #include <string>
 #include "My_MySQL.h"
 #include "order_define.h"
 #include "json/json.h"
+#include <time.h>
+#include <UrlMon.h>
 
+#pragma comment (lib, "urlmon.lib")
 #pragma comment (lib, "ws2_32.lib")  //加载 ws2_32.dll
+
 
 class MySocket
 {
@@ -17,7 +22,7 @@ public:
 public:
 	void InitSocket();
 	void ListenClient();
-
+	
 private:
 	// 服务器端需要的变量
 	WSADATA wsaData;		// 用于初始化DLL
@@ -42,5 +47,10 @@ private:
 
 // 切割字符串
 void SplitString(const string& s, vector<string>& v, const string& c);
-int GBKToUTF8(unsigned char * lpGBKStr, unsigned char * lpUTF8Str, int nUTF8StrLen);
+// gbk转UTF-8
 string GBKToUTF8(const std::string& strGBK);
+
+// 获取本地ip
+string GetLocalIpAddress();
+// 访问whatismyip获取外网ip
+string GetInternetIP();

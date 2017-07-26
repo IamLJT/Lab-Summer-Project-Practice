@@ -1,7 +1,7 @@
 #include "My_MySQL.h"
 
 My_MySQL::My_MySQL(): 
-	default_databasename("myfirstsql")
+	default_databasename("mysql")
 {
 
 }
@@ -16,6 +16,12 @@ bool My_MySQL::InitMySql(string hostname, int port, string root, string passwd) 
 	this->port = port;
 	this->root = root;
 	this->passwd = passwd;
+
+	if (NULL == mysql_real_connect(&mydata, hostname.c_str(), root.c_str(), passwd.c_str(), \
+		default_databasename.c_str(), port, NULL, 0)) {
+		return false;
+	}
+	mysql_close(&mydata);
 
 	//初始化数据库
 	if (0 == mysql_library_init(0, NULL, NULL)) {

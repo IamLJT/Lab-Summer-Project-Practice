@@ -114,6 +114,8 @@ public:
 
         fill_open->addWidget(date_name_label, 0, 1, 1, 1);
 
+        fill_open->setColumnStretch(0, 1);
+        fill_open->setColumnStretch(1, 4);
         pushButton_2 = new QPushButton(download);
         pushButton_2->setObjectName(QStringLiteral("pushButton_2"));
         pushButton_2->setGeometry(QRect(350, 45, 28, 28));

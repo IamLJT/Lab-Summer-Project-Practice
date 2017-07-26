@@ -1,8 +1,10 @@
 ﻿  MySocket.cpp
+..\src\MySocket.cpp(252): warning C4018: “<”: 有符号/无符号不匹配
   正在生成代码
-  1 of 934 functions ( 0.1%) were compiled, the rest were copied from previous compilation.
+  2 of 954 functions ( 0.2%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    24 functions had inline decision re-evaluated but remain unchanged
+    13 functions had inline decision re-evaluated but remain unchanged
   已完成代码的生成
+LINK : warning LNK4199: 已忽略 /DELAYLOAD:D:\Qt\Qt5.8.0\5.8\mingw53_32\bin\libmysql.dll；未找到来自 D:\Qt\Qt5.8.0\5.8\mingw53_32\bin\libmysql.dll 的导入
   Server.vcxproj -> D:\ProjectSocket\Lab-Summer-Project-Practice\Server\Release\Server.exe
   Server.vcxproj -> D:\ProjectSocket\Lab-Summer-Project-Practice\Server\Release\Server.pdb (Full PDB)

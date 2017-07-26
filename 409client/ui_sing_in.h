@@ -82,7 +82,7 @@ public:
 
     void retranslateUi(QDialog *sing_in)
     {
-        sing_in->setWindowTitle(QApplication::translate("sing_in", "Dialog", Q_NULLPTR));
+        sing_in->setWindowTitle(QString());
         pushButton_2->setText(QApplication::translate("sing_in", "\347\241\256\345\256\232", Q_NULLPTR));
         pushButton->setText(QApplication::translate("sing_in", "\345\217\226\346\266\210", Q_NULLPTR));
         label->setText(QApplication::translate("sing_in", "\347\224\250\346\210\267\345\220\215\357\274\232", Q_NULLPTR));

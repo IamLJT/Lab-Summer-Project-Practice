@@ -1,2 +1,3 @@
-﻿  Server.vcxproj -> D:\ProjectSocket\Lab-Summer-Project-Practice\Server\Debug\Server.exe
+﻿LINK : warning LNK4199: 已忽略 /DELAYLOAD:D:\Qt\Qt5.8.0\5.8\mingw53_32\bin\libmysql.dll；未找到来自 D:\Qt\Qt5.8.0\5.8\mingw53_32\bin\libmysql.dll 的导入
+  Server.vcxproj -> D:\ProjectSocket\Lab-Summer-Project-Practice\Server\Debug\Server.exe
   Server.vcxproj -> D:\ProjectSocket\Lab-Summer-Project-Practice\Server\Debug\Server.pdb (Full PDB)

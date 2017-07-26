@@ -125,7 +125,7 @@ public:
         pushButton_4->setText(QApplication::translate("MainWindow", "\347\224\250\346\210\267\347\231\273\345\275\225", Q_NULLPTR));
         user_name->setText(QString());
         label->setText(QApplication::translate("MainWindow", "\344\275\240\345\245\275\357\274\201", Q_NULLPTR));
-        pushButton_6->setText(QApplication::translate("MainWindow", "\351\200\200\345\207\272\347\231\273\345\275\225", Q_NULLPTR));
+        pushButton_6->setText(QApplication::translate("MainWindow", "\345\210\240\351\231\244\347\224\250\346\210\267", Q_NULLPTR));
         pushButton->setText(QApplication::translate("MainWindow", "\347\273\230\345\233\276", Q_NULLPTR));
         pushButton_5->setText(QApplication::translate("MainWindow", "\345\210\240\351\231\244", Q_NULLPTR));
     } // retranslateUi

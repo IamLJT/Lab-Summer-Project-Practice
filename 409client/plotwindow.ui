@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>500</width>
+    <width>550</width>
     <height>400</height>
    </rect>
   </property>
@@ -18,24 +18,30 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>40</y>
-      <width>371</width>
-      <height>281</height>
+      <y>20</y>
+      <width>400</width>
+      <height>300</height>
      </rect>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_2">
+   <widget class="QWidget" name="verticalLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>400</x>
-      <y>40</y>
-      <width>75</width>
-      <height>23</height>
+      <x>440</x>
+      <y>120</y>
+      <width>77</width>
+      <height>131</height>
      </rect>
     </property>
-    <property name="text">
-     <string>PushButton</string>
-    </property>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <widget class="QPushButton" name="pushButton">
+       <property name="text">
+        <string>绘图</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -43,7 +49,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>500</width>
+     <width>550</width>
      <height>23</height>
     </rect>
    </property>

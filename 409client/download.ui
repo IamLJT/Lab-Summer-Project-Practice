@@ -91,7 +91,7 @@
      <height>25</height>
     </rect>
    </property>
-   <layout class="QGridLayout" name="fill_open">
+   <layout class="QGridLayout" name="fill_open" columnstretch="1,4">
     <property name="sizeConstraint">
      <enum>QLayout::SetFixedSize</enum>
     </property>

@@ -18,7 +18,7 @@ public:
     void DeleteTable();                 // 删除数据库中表
     QStringList GetTableList();         // 获取本地数据库中的表内容
     QStringList GetDataBaseList();      // 获取本地数据库列表
-    QStringList GetUserNameList();      // 获取当前表的用户
+    QStringList GetUserNameList();      // 获取当前数据库的用户
     void GetTableContent();             // 获取表内容
 
     QVector<QStringList> QueryDataFromServer(int QueryStr);    // 查询数据
